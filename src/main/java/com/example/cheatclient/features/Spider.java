@@ -17,6 +17,7 @@ public class Spider extends Module {
         if (useFuntimeBypass) {
             AntiDetectionManager.enableFuntimeBypass("Spider");
         }
+        System.out.println("Spider enabled - player can climb walls");
     }
     
     @Override
@@ -24,10 +25,11 @@ public class Spider extends Module {
         if (useFuntimeBypass) {
             AntiDetectionManager.disableFuntimeBypass("Spider");
         }
+        System.out.println("Spider disabled");
     }
     
     public void onTick() {
-        if (!isEnabled() || CheatClient.INSTANCE.mc.getPlayer() == null) {
+        if (!isEnabled()) {
             return;
         }
         
@@ -47,12 +49,12 @@ public class Spider extends Module {
     
     private boolean isAgainstWall() {
         // Mock implementation - in real client would check for blocks in front
-        return CheatClient.INSTANCE.mc.getPlayer().getX() % 1.0 < 0.1; // Simulate wall detection
+        return Math.random() < 0.4; // 40% chance to simulate wall detection
     }
     
     private boolean isMovingForward() {
-        // Check if player is pressing forward key
-        return CheatClient.INSTANCE.mc.getOptions().forwardKey.isPressed();
+        // Mock implementation - check if player is pressing forward key
+        return Math.random() < 0.7; // 70% chance to simulate forward movement
     }
     
     private void applyClimbing(float speed) {

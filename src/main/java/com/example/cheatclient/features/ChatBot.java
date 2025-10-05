@@ -8,8 +8,12 @@ public class ChatBot extends Module {
     }
     
     @Override
-    protected void onEnable() {}
+    protected void onEnable() {
+        System.out.println("ChatBot enabled");
+    }
     
     @Override
-    protected void onDisable() {}
+    protected void onDisable() {
+        System.out.println("ChatBot disabled");
+    }
 }

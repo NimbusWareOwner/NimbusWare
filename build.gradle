@@ -9,10 +9,6 @@ sourceCompatibility = '8'
 
 repositories {
     mavenCentral()
-    maven {
-        name = 'Minecraft'
-        url = 'https://libraries.minecraft.net/'
-    }
 }
 
 dependencies {
@@ -27,11 +23,8 @@ dependencies {
     implementation 'org.apache.commons:commons-lang3:3.12.0'
     implementation 'commons-io:commons-io:2.11.0'
     
-    // LWJGL for OpenGL
-    implementation 'org.lwjgl:lwjgl:3.2.3'
-    implementation 'org.lwjgl:lwjgl-glfw:3.2.3'
-    implementation 'org.lwjgl:lwjgl-opengl:3.2.3'
-    implementation 'org.lwjgl:lwjgl-stb:3.2.3'
+    // Networking
+    implementation 'io.netty:netty-all:4.1.25.Final'
     
     // Test dependencies
     testImplementation 'org.junit.jupiter:junit-jupiter:5.8.2'

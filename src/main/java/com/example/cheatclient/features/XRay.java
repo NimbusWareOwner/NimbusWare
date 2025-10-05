@@ -1,7 +1,6 @@
 package com.example.cheatclient.features;
 
 import com.example.cheatclient.core.Module;
-import com.example.cheatclient.mock.MockBlockState;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -26,26 +25,18 @@ public class XRay extends Module {
     
     public XRay() {
         super("XRay", "See through blocks to find ores with 2 modes", Module.Category.RENDER, 0);
-        
-        // Add important blocks to see through
         updateVisibleBlocks();
     }
     
     @Override
     protected void onEnable() {
         updateVisibleBlocks();
-        if (CheatClient.INSTANCE.mc.getWorld() != null) {
-            // Refresh world rendering
-            // CheatClient.INSTANCE.mc.getWorld()Renderer.reload();
-        }
+        System.out.println("XRay enabled in " + mode + " mode");
     }
     
     @Override
     protected void onDisable() {
-        if (CheatClient.INSTANCE.mc.getWorld() != null) {
-            // Refresh world rendering
-            // CheatClient.INSTANCE.mc.getWorld()Renderer.reload();
-        }
+        System.out.println("XRay disabled");
     }
     
     private void updateVisibleBlocks() {
@@ -69,13 +60,12 @@ public class XRay extends Module {
     }
     
     public boolean shouldRenderBlock(int x, int y, int z) {
-        if (!isEnabled() || CheatClient.INSTANCE.mc.getWorld() == null) {
+        if (!isEnabled()) {
             return true;
         }
         
-        MockBlockState blockState = CheatClient.INSTANCE.mc.getWorld().getBlockState(x, y, z);
-        String blockName = blockState.getBlockName().toLowerCase();
-        
+        // Mock block detection
+        String blockName = "stone"; // Mock block type
         return visibleBlocks.contains(blockName);
     }
     

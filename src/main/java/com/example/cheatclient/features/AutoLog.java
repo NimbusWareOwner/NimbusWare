@@ -6,7 +6,7 @@ import com.example.cheatclient.anti_detection.AntiDetectionManager;
 public class AutoLog extends Module {
     private String regCommand = "/reg pass pass";
     private boolean autoReg = true;
-    private int regDelay = 2000; // milliseconds
+    private int regDelay = 2000;
     private boolean useFuntimeBypass = true;
     private long lastReg = 0;
     private boolean hasRegged = false;
@@ -20,6 +20,7 @@ public class AutoLog extends Module {
         if (useFuntimeBypass) {
             AntiDetectionManager.enableFuntimeBypass("AutoLog");
         }
+        System.out.println("AutoLog enabled with command: " + regCommand);
     }
     
     @Override
@@ -27,16 +28,14 @@ public class AutoLog extends Module {
         if (useFuntimeBypass) {
             AntiDetectionManager.disableFuntimeBypass("AutoLog");
         }
+        System.out.println("AutoLog disabled");
     }
     
     public void onTick() {
-        if (!isEnabled() || CheatClient.INSTANCE.mc.getPlayer() == null) {
-            return;
-        }
+        if (!isEnabled()) return;
         
         long currentTime = System.currentTimeMillis();
         
-        // Auto register if enabled and not already registered
         if (autoReg && !hasRegged && currentTime - lastReg >= regDelay) {
             performRegistration();
             lastReg = currentTime;
@@ -45,57 +44,25 @@ public class AutoLog extends Module {
     }
     
     private void performRegistration() {
-        // Apply anti-detection modifications
         if (useFuntimeBypass) {
             AntiDetectionManager.applyCombatModification("AutoLog", 1.0f);
         }
-        
-        // Send registration command
-        CheatClient.INSTANCE.mc.getPlayer().sendMessage(
-            com.example.cheatclient.mock.MockText.literal(regCommand), 
-            false
-        );
-        
         System.out.println("AutoLog: Sent registration command: " + regCommand);
     }
     
-    public String getRegCommand() {
-        return regCommand;
-    }
+    // Getters and setters
+    public String getRegCommand() { return regCommand; }
+    public void setRegCommand(String regCommand) { this.regCommand = regCommand; }
     
-    public void setRegCommand(String regCommand) {
-        this.regCommand = regCommand;
-    }
+    public boolean isAutoReg() { return autoReg; }
+    public void setAutoReg(boolean autoReg) { this.autoReg = autoReg; }
     
-    public boolean isAutoReg() {
-        return autoReg;
-    }
+    public int getRegDelay() { return regDelay; }
+    public void setRegDelay(int regDelay) { this.regDelay = Math.max(0, regDelay); }
     
-    public void setAutoReg(boolean autoReg) {
-        this.autoReg = autoReg;
-    }
+    public boolean isUseFuntimeBypass() { return useFuntimeBypass; }
+    public void setUseFuntimeBypass(boolean useFuntimeBypass) { this.useFuntimeBypass = useFuntimeBypass; }
     
-    public int getRegDelay() {
-        return regDelay;
-    }
-    
-    public void setRegDelay(int regDelay) {
-        this.regDelay = Math.max(0, regDelay);
-    }
-    
-    public boolean isUseFuntimeBypass() {
-        return useFuntimeBypass;
-    }
-    
-    public void setUseFuntimeBypass(boolean useFuntimeBypass) {
-        this.useFuntimeBypass = useFuntimeBypass;
-    }
-    
-    public boolean isHasRegged() {
-        return hasRegged;
-    }
-    
-    public void setHasRegged(boolean hasRegged) {
-        this.hasRegged = hasRegged;
-    }
+    public boolean isHasRegged() { return hasRegged; }
+    public void setHasRegged(boolean hasRegged) { this.hasRegged = hasRegged; }
 }

@@ -4,7 +4,7 @@ import com.example.cheatclient.core.Module;
 import com.example.cheatclient.anti_detection.AntiDetectionManager;
 
 public class AutoJump extends Module {
-    private int jumpInterval = 1000; // milliseconds
+    private int jumpInterval = 1000;
     private boolean randomizeInterval = true;
     private int minInterval = 800;
     private int maxInterval = 1200;
@@ -20,6 +20,7 @@ public class AutoJump extends Module {
         if (useFuntimeBypass) {
             AntiDetectionManager.enableFuntimeBypass("AutoJump");
         }
+        System.out.println("AutoJump enabled with " + jumpInterval + "ms interval");
     }
     
     @Override
@@ -27,17 +28,15 @@ public class AutoJump extends Module {
         if (useFuntimeBypass) {
             AntiDetectionManager.disableFuntimeBypass("AutoJump");
         }
+        System.out.println("AutoJump disabled");
     }
     
     public void onTick() {
-        if (!isEnabled() || CheatClient.INSTANCE.mc.getPlayer() == null) {
-            return;
-        }
+        if (!isEnabled()) return;
         
         long currentTime = System.currentTimeMillis();
         long nextJumpInterval = jumpInterval;
         
-        // Randomize interval if enabled
         if (randomizeInterval) {
             nextJumpInterval = minInterval + (long)(Math.random() * (maxInterval - minInterval));
         }
@@ -49,52 +48,25 @@ public class AutoJump extends Module {
     }
     
     private void performJump() {
-        // Apply anti-detection modifications
         if (useFuntimeBypass) {
             AntiDetectionManager.applyMovementModification("AutoJump", 1.0f);
         }
-        
-        // Mock jump implementation
         System.out.println("AutoJump: Performing jump");
     }
     
-    public int getJumpInterval() {
-        return jumpInterval;
-    }
+    // Getters and setters
+    public int getJumpInterval() { return jumpInterval; }
+    public void setJumpInterval(int jumpInterval) { this.jumpInterval = Math.max(100, jumpInterval); }
     
-    public void setJumpInterval(int jumpInterval) {
-        this.jumpInterval = Math.max(100, jumpInterval);
-    }
+    public boolean isRandomizeInterval() { return randomizeInterval; }
+    public void setRandomizeInterval(boolean randomizeInterval) { this.randomizeInterval = randomizeInterval; }
     
-    public boolean isRandomizeInterval() {
-        return randomizeInterval;
-    }
+    public int getMinInterval() { return minInterval; }
+    public void setMinInterval(int minInterval) { this.minInterval = Math.max(100, minInterval); }
     
-    public void setRandomizeInterval(boolean randomizeInterval) {
-        this.randomizeInterval = randomizeInterval;
-    }
+    public int getMaxInterval() { return maxInterval; }
+    public void setMaxInterval(int maxInterval) { this.maxInterval = Math.max(minInterval, maxInterval); }
     
-    public int getMinInterval() {
-        return minInterval;
-    }
-    
-    public void setMinInterval(int minInterval) {
-        this.minInterval = Math.max(100, minInterval);
-    }
-    
-    public int getMaxInterval() {
-        return maxInterval;
-    }
-    
-    public void setMaxInterval(int maxInterval) {
-        this.maxInterval = Math.max(minInterval, maxInterval);
-    }
-    
-    public boolean isUseFuntimeBypass() {
-        return useFuntimeBypass;
-    }
-    
-    public void setUseFuntimeBypass(boolean useFuntimeBypass) {
-        this.useFuntimeBypass = useFuntimeBypass;
-    }
+    public boolean isUseFuntimeBypass() { return useFuntimeBypass; }
+    public void setUseFuntimeBypass(boolean useFuntimeBypass) { this.useFuntimeBypass = useFuntimeBypass; }
 }

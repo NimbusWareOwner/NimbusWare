@@ -8,8 +8,12 @@ public class NoRender extends Module {
     }
     
     @Override
-    protected void onEnable() {}
+    protected void onEnable() {
+        System.out.println("NoRender enabled");
+    }
     
     @Override
-    protected void onDisable() {}
+    protected void onDisable() {
+        System.out.println("NoRender disabled");
+    }
 }

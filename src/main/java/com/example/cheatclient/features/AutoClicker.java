@@ -4,12 +4,12 @@ import com.example.cheatclient.core.Module;
 import com.example.cheatclient.anti_detection.AntiDetectionManager;
 
 public class AutoClicker extends Module {
-    private int cps = 10; // clicks per second
+    private int cps = 10;
     private boolean leftClick = true;
     private boolean rightClick = false;
     private boolean useFuntimeBypass = true;
     private long lastClick = 0;
-    private boolean tapeMouse = true; // Tape mouse to prevent detection
+    private boolean tapeMouse = true;
     
     public AutoClicker() {
         super("AutoClicker", "Automatically clicks with tape mouse", Module.Category.COMBAT, 0);
@@ -20,6 +20,7 @@ public class AutoClicker extends Module {
         if (useFuntimeBypass) {
             AntiDetectionManager.enableFuntimeBypass("AutoClicker");
         }
+        System.out.println("AutoClicker enabled with " + cps + " CPS");
     }
     
     @Override
@@ -27,15 +28,14 @@ public class AutoClicker extends Module {
         if (useFuntimeBypass) {
             AntiDetectionManager.disableFuntimeBypass("AutoClicker");
         }
+        System.out.println("AutoClicker disabled");
     }
     
     public void onTick() {
-        if (!isEnabled()) {
-            return;
-        }
+        if (!isEnabled()) return;
         
         long currentTime = System.currentTimeMillis();
-        long clickInterval = 1000 / cps; // Convert CPS to milliseconds
+        long clickInterval = 1000 / cps;
         
         if (currentTime - lastClick >= clickInterval) {
             if (leftClick) {
@@ -49,84 +49,32 @@ public class AutoClicker extends Module {
     }
     
     private void performLeftClick() {
-        // Apply anti-detection modifications
         if (useFuntimeBypass) {
             AntiDetectionManager.applyCombatModification("AutoClicker", 1.0f);
         }
-        
-        // Perform left click with tape mouse
-        if (tapeMouse) {
-            // Tape mouse implementation - add small random delays
-            long randomDelay = (long) (Math.random() * 10); // 0-10ms random delay
-            try {
-                Thread.sleep(randomDelay);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
-        }
-        
-        // Mock click implementation
-        System.out.println("AutoClicker: Left click performed");
+        System.out.println("AutoClicker: Left click");
     }
     
     private void performRightClick() {
-        // Apply anti-detection modifications
         if (useFuntimeBypass) {
             AntiDetectionManager.applyCombatModification("AutoClicker", 1.0f);
         }
-        
-        // Perform right click with tape mouse
-        if (tapeMouse) {
-            // Tape mouse implementation - add small random delays
-            long randomDelay = (long) (Math.random() * 10); // 0-10ms random delay
-            try {
-                Thread.sleep(randomDelay);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
-        }
-        
-        // Mock click implementation
-        System.out.println("AutoClicker: Right click performed");
+        System.out.println("AutoClicker: Right click");
     }
     
-    public int getCps() {
-        return cps;
-    }
+    // Getters and setters
+    public int getCps() { return cps; }
+    public void setCps(int cps) { this.cps = Math.max(1, Math.min(20, cps)); }
     
-    public void setCps(int cps) {
-        this.cps = Math.max(1, Math.min(20, cps)); // Limit between 1-20 CPS
-    }
+    public boolean isLeftClick() { return leftClick; }
+    public void setLeftClick(boolean leftClick) { this.leftClick = leftClick; }
     
-    public boolean isLeftClick() {
-        return leftClick;
-    }
+    public boolean isRightClick() { return rightClick; }
+    public void setRightClick(boolean rightClick) { this.rightClick = rightClick; }
     
-    public void setLeftClick(boolean leftClick) {
-        this.leftClick = leftClick;
-    }
+    public boolean isUseFuntimeBypass() { return useFuntimeBypass; }
+    public void setUseFuntimeBypass(boolean useFuntimeBypass) { this.useFuntimeBypass = useFuntimeBypass; }
     
-    public boolean isRightClick() {
-        return rightClick;
-    }
-    
-    public void setRightClick(boolean rightClick) {
-        this.rightClick = rightClick;
-    }
-    
-    public boolean isUseFuntimeBypass() {
-        return useFuntimeBypass;
-    }
-    
-    public void setUseFuntimeBypass(boolean useFuntimeBypass) {
-        this.useFuntimeBypass = useFuntimeBypass;
-    }
-    
-    public boolean isTapeMouse() {
-        return tapeMouse;
-    }
-    
-    public void setTapeMouse(boolean tapeMouse) {
-        this.tapeMouse = tapeMouse;
-    }
+    public boolean isTapeMouse() { return tapeMouse; }
+    public void setTapeMouse(boolean tapeMouse) { this.tapeMouse = tapeMouse; }
 }

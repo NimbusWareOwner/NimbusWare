@@ -8,8 +8,12 @@ public class AutoRespawn extends Module {
     }
     
     @Override
-    protected void onEnable() {}
+    protected void onEnable() {
+        System.out.println("AutoRespawn enabled");
+    }
     
     @Override
-    protected void onDisable() {}
+    protected void onDisable() {
+        System.out.println("AutoRespawn disabled");
+    }
 }

@@ -8,8 +8,12 @@ public class AutoReconnect extends Module {
     }
     
     @Override
-    protected void onEnable() {}
+    protected void onEnable() {
+        System.out.println("AutoReconnect enabled");
+    }
     
     @Override
-    protected void onDisable() {}
+    protected void onDisable() {
+        System.out.println("AutoReconnect disabled");
+    }
 }

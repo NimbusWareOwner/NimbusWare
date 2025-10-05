@@ -17,6 +17,7 @@ public class WaterSpeed extends Module {
         if (useFuntimeBypass) {
             AntiDetectionManager.enableFuntimeBypass("WaterSpeed");
         }
+        System.out.println("WaterSpeed enabled with " + speedMultiplier + "x speed");
     }
     
     @Override
@@ -24,10 +25,11 @@ public class WaterSpeed extends Module {
         if (useFuntimeBypass) {
             AntiDetectionManager.disableFuntimeBypass("WaterSpeed");
         }
+        System.out.println("WaterSpeed disabled");
     }
     
     public void onTick() {
-        if (!isEnabled() || CheatClient.INSTANCE.mc.getPlayer() == null) {
+        if (!isEnabled()) {
             return;
         }
         
@@ -47,7 +49,7 @@ public class WaterSpeed extends Module {
     
     private boolean isInWater() {
         // Mock implementation - in real client would check block below player
-        return CheatClient.INSTANCE.mc.getPlayer().getY() < 60; // Simulate water level
+        return Math.random() < 0.3; // 30% chance to simulate water
     }
     
     private void applyWaterSpeedBoost(float multiplier) {

@@ -11,7 +11,7 @@ public class AutoCreeperFarm extends Module {
     private boolean autoKill = true;
     private boolean autoCollect = true;
     private boolean useFuntimeBypass = true;
-    private int checkInterval = 1000; // milliseconds
+    private int checkInterval = 1000;
     private long lastCheck = 0;
     
     public AutoCreeperFarm() {
@@ -23,6 +23,7 @@ public class AutoCreeperFarm extends Module {
         if (useFuntimeBypass) {
             AntiDetectionManager.enableFuntimeBypass("AutoCreeperFarm");
         }
+        System.out.println("AutoCreeperFarm enabled at " + farmX + ", " + farmY + ", " + farmZ);
     }
     
     @Override
@@ -30,19 +31,15 @@ public class AutoCreeperFarm extends Module {
         if (useFuntimeBypass) {
             AntiDetectionManager.disableFuntimeBypass("AutoCreeperFarm");
         }
+        System.out.println("AutoCreeperFarm disabled");
     }
     
     public void onTick() {
-        if (!isEnabled() || CheatClient.INSTANCE.mc.getPlayer() == null) {
-            return;
-        }
+        if (!isEnabled()) return;
         
         long currentTime = System.currentTimeMillis();
-        if (currentTime - lastCheck < checkInterval) {
-            return;
-        }
+        if (currentTime - lastCheck < checkInterval) return;
         
-        // Check if player is near the farm
         if (isNearFarm()) {
             if (autoKill) {
                 killCreepers();
@@ -56,94 +53,46 @@ public class AutoCreeperFarm extends Module {
     }
     
     private boolean isNearFarm() {
-        double playerX = CheatClient.INSTANCE.mc.getPlayer().getX();
-        double playerZ = CheatClient.INSTANCE.mc.getPlayer().getZ();
-        
-        double distance = Math.sqrt(Math.pow(playerX - farmX, 2) + Math.pow(playerZ - farmZ, 2));
-        return distance <= farmRadius;
+        // Mock distance check
+        return Math.random() < 0.5;
     }
     
     private void killCreepers() {
-        // Apply anti-detection modifications
         if (useFuntimeBypass) {
             AntiDetectionManager.applyCombatModification("AutoCreeperFarm", 1.0f);
         }
-        
-        // Mock creeper killing
-        System.out.println("AutoCreeperFarm: Killing creepers at farm");
+        System.out.println("AutoCreeperFarm: Killing creepers");
     }
     
     private void collectDrops() {
-        // Apply anti-detection modifications
         if (useFuntimeBypass) {
             AntiDetectionManager.applyCombatModification("AutoCreeperFarm", 1.0f);
         }
-        
-        // Mock drop collection
         System.out.println("AutoCreeperFarm: Collecting drops");
     }
     
-    public int getFarmX() {
-        return farmX;
-    }
+    // Getters and setters
+    public int getFarmX() { return farmX; }
+    public void setFarmX(int farmX) { this.farmX = farmX; }
     
-    public void setFarmX(int farmX) {
-        this.farmX = farmX;
-    }
+    public int getFarmY() { return farmY; }
+    public void setFarmY(int farmY) { this.farmY = farmY; }
     
-    public int getFarmY() {
-        return farmY;
-    }
+    public int getFarmZ() { return farmZ; }
+    public void setFarmZ(int farmZ) { this.farmZ = farmZ; }
     
-    public void setFarmY(int farmY) {
-        this.farmY = farmY;
-    }
+    public int getFarmRadius() { return farmRadius; }
+    public void setFarmRadius(int farmRadius) { this.farmRadius = Math.max(1, farmRadius); }
     
-    public int getFarmZ() {
-        return farmZ;
-    }
+    public boolean isAutoKill() { return autoKill; }
+    public void setAutoKill(boolean autoKill) { this.autoKill = autoKill; }
     
-    public void setFarmZ(int farmZ) {
-        this.farmZ = farmZ;
-    }
+    public boolean isAutoCollect() { return autoCollect; }
+    public void setAutoCollect(boolean autoCollect) { this.autoCollect = autoCollect; }
     
-    public int getFarmRadius() {
-        return farmRadius;
-    }
+    public boolean isUseFuntimeBypass() { return useFuntimeBypass; }
+    public void setUseFuntimeBypass(boolean useFuntimeBypass) { this.useFuntimeBypass = useFuntimeBypass; }
     
-    public void setFarmRadius(int farmRadius) {
-        this.farmRadius = Math.max(1, farmRadius);
-    }
-    
-    public boolean isAutoKill() {
-        return autoKill;
-    }
-    
-    public void setAutoKill(boolean autoKill) {
-        this.autoKill = autoKill;
-    }
-    
-    public boolean isAutoCollect() {
-        return autoCollect;
-    }
-    
-    public void setAutoCollect(boolean autoCollect) {
-        this.autoCollect = autoCollect;
-    }
-    
-    public boolean isUseFuntimeBypass() {
-        return useFuntimeBypass;
-    }
-    
-    public void setUseFuntimeBypass(boolean useFuntimeBypass) {
-        this.useFuntimeBypass = useFuntimeBypass;
-    }
-    
-    public int getCheckInterval() {
-        return checkInterval;
-    }
-    
-    public void setCheckInterval(int checkInterval) {
-        this.checkInterval = Math.max(100, checkInterval);
-    }
+    public int getCheckInterval() { return checkInterval; }
+    public void setCheckInterval(int checkInterval) { this.checkInterval = Math.max(100, checkInterval); }
 }

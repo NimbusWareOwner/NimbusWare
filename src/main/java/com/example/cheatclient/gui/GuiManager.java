@@ -3,7 +3,6 @@ package com.example.cheatclient.gui;
 import com.example.cheatclient.CheatClient;
 import com.example.cheatclient.core.Module;
 import com.example.cheatclient.core.ModuleManager;
-import com.example.cheatclient.mock.MockMinecraftClient;
 
 import java.util.List;
 
@@ -15,37 +14,34 @@ public class GuiManager {
     
     public void toggleGui() {
         guiOpen = !guiOpen;
+        if (guiOpen) {
+            renderGui();
+        }
     }
     
     public boolean isGuiOpen() {
         return guiOpen;
     }
     
-    public void render(Object matrices, float partialTicks) {
+    public void renderGui() {
         if (!guiOpen) return;
         
-        MockMinecraftClient mc = CheatClient.INSTANCE.mc;
-        if (mc == null) return;
-        
-        // Render background (simplified)
-        System.out.println("Rendering GUI background");
-        
-        // Render title with anti-detection info
+        System.out.println("\n" + "=".repeat(60));
         System.out.println("§6CheatClient §fv" + CheatClient.VERSION);
         System.out.println("§7[Matrix & Funtime Bypass]");
+        System.out.println("=".repeat(60));
         
         // Render categories
-        int y = 45;
+        System.out.println("\n§eCategories:");
         for (int i = 0; i < categories.length; i++) {
             Module.Category category = categories[i];
             String color = (i == selectedCategory) ? "§a" : "§f";
-            System.out.println(color + category.getDisplayName());
-            y += 12;
+            System.out.println("  " + color + category.getDisplayName());
         }
         
         // Render modules for selected category
         List<Module> modules = CheatClient.INSTANCE.getModuleManager().getModulesByCategory(categories[selectedCategory]);
-        y = 45;
+        System.out.println("\n§eModules (" + categories[selectedCategory].getDisplayName() + "):");
         for (int i = 0; i < modules.size(); i++) {
             Module module = modules.get(i);
             String color = module.isEnabled() ? "§a" : "§f";
@@ -62,18 +58,19 @@ public class GuiManager {
                 bypassInfo = " §8[FT]";
             }
             
-            System.out.println(color + module.getName() + bypassInfo);
-            y += 12;
+            System.out.println("  " + color + module.getName() + bypassInfo);
         }
         
         // Render status info
         int enabledCount = CheatClient.INSTANCE.getModuleManager().getEnabledModules().size();
-        System.out.println("§7Enabled: §a" + enabledCount);
+        System.out.println("\n§7Enabled: §a" + enabledCount);
         
         // Render instructions
-        System.out.println("§7WASD: Navigate");
-        System.out.println("§7Enter: Toggle");
-        System.out.println("§7ESC: Close");
+        System.out.println("\n§7Controls:");
+        System.out.println("  §7WASD: Navigate");
+        System.out.println("  §7Enter: Toggle");
+        System.out.println("  §7ESC: Close");
+        System.out.println("=".repeat(60));
     }
     
     public void handleKeyPress(int key) {
@@ -84,25 +81,31 @@ public class GuiManager {
         switch (key) {
             case 87: // W
                 selectedModule = Math.max(0, selectedModule - 1);
+                renderGui();
                 break;
             case 83: // S
                 selectedModule = Math.min(modules.size() - 1, selectedModule + 1);
+                renderGui();
                 break;
             case 65: // A
                 selectedCategory = Math.max(0, selectedCategory - 1);
                 selectedModule = 0;
+                renderGui();
                 break;
             case 68: // D
                 selectedCategory = Math.min(categories.length - 1, selectedCategory + 1);
                 selectedModule = 0;
+                renderGui();
                 break;
             case 257: // Enter
                 if (selectedModule < modules.size()) {
                     modules.get(selectedModule).toggle();
+                    renderGui();
                 }
                 break;
             case 256: // Escape
                 guiOpen = false;
+                System.out.println("\n§7GUI closed");
                 break;
         }
     }

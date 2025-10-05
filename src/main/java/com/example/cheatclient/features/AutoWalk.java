@@ -26,6 +26,7 @@ public class AutoWalk extends Module {
         if (useBaritone && autoPathfinding) {
             startBaritonePathfinding();
         }
+        System.out.println("AutoWalk enabled with Baritone pathfinding");
     }
     
     @Override
@@ -37,84 +38,42 @@ public class AutoWalk extends Module {
         if (useBaritone) {
             stopBaritonePathfinding();
         }
+        System.out.println("AutoWalk disabled");
     }
     
     private void startBaritonePathfinding() {
-        // Apply anti-detection modifications
         if (useFuntimeBypass) {
             AntiDetectionManager.applyMovementModification("AutoWalk", 1.0f);
         }
-        
-        // Mock Baritone pathfinding start
         System.out.println("AutoWalk: Starting Baritone pathfinding to " + targetX + ", " + targetY + ", " + targetZ);
     }
     
     private void stopBaritonePathfinding() {
-        // Mock Baritone pathfinding stop
         System.out.println("AutoWalk: Stopping Baritone pathfinding");
     }
     
-    public boolean isUseBaritone() {
-        return useBaritone;
-    }
+    // Getters and setters
+    public boolean isUseBaritone() { return useBaritone; }
+    public void setUseBaritone(boolean useBaritone) { this.useBaritone = useBaritone; }
     
-    public void setUseBaritone(boolean useBaritone) {
-        this.useBaritone = useBaritone;
-    }
+    public int getTargetX() { return targetX; }
+    public void setTargetX(int targetX) { this.targetX = targetX; }
     
-    public int getTargetX() {
-        return targetX;
-    }
+    public int getTargetY() { return targetY; }
+    public void setTargetY(int targetY) { this.targetY = targetY; }
     
-    public void setTargetX(int targetX) {
-        this.targetX = targetX;
-    }
+    public int getTargetZ() { return targetZ; }
+    public void setTargetZ(int targetZ) { this.targetZ = targetZ; }
     
-    public int getTargetY() {
-        return targetY;
-    }
+    public boolean isAutoPathfinding() { return autoPathfinding; }
+    public void setAutoPathfinding(boolean autoPathfinding) { this.autoPathfinding = autoPathfinding; }
     
-    public void setTargetY(int targetY) {
-        this.targetY = targetY;
-    }
+    public boolean isAvoidWater() { return avoidWater; }
+    public void setAvoidWater(boolean avoidWater) { this.avoidWater = avoidWater; }
     
-    public int getTargetZ() {
-        return targetZ;
-    }
+    public boolean isAvoidLava() { return avoidLava; }
+    public void setAvoidLava(boolean avoidLava) { this.avoidLava = avoidLava; }
     
-    public void setTargetZ(int targetZ) {
-        this.targetZ = targetZ;
-    }
-    
-    public boolean isAutoPathfinding() {
-        return autoPathfinding;
-    }
-    
-    public void setAutoPathfinding(boolean autoPathfinding) {
-        this.autoPathfinding = autoPathfinding;
-    }
-    
-    public boolean isAvoidWater() {
-        return avoidWater;
-    }
-    
-    public void setAvoidWater(boolean avoidWater) {
-        this.avoidWater = avoidWater;
-    }
-    
-    public boolean isAvoidLava() {
-        return avoidLava;
-    }
-    
-    public void setAvoidLava(boolean avoidLava) {
-        this.avoidLava = avoidLava;
-    }
-    
-    public boolean isUseFuntimeBypass() {
-        return useFuntimeBypass;
-    }
-    
-    public void setUseFuntimeBypass(boolean useFuntimeBypass) {
-        this.useFuntimeBypass = useFuntimeBypass;
-    }
+    public boolean isUseFuntimeBypass() { return useFuntimeBypass; }
+    public void setUseFuntimeBypass(boolean useFuntimeBypass) { this.useFuntimeBypass = useFuntimeBypass; }
 }

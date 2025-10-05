@@ -8,8 +8,12 @@ public class AutoEat extends Module {
     }
     
     @Override
-    protected void onEnable() {}
+    protected void onEnable() {
+        System.out.println("AutoEat enabled");
+    }
     
     @Override
-    protected void onDisable() {}
+    protected void onDisable() {
+        System.out.println("AutoEat disabled");
+    }
 }

@@ -5,7 +5,6 @@ import com.example.cheatclient.core.ModuleManager;
 import com.example.cheatclient.gui.GuiManager;
 import com.example.cheatclient.config.ConfigManager;
 import com.example.cheatclient.utils.Logger;
-import org.lwjgl.glfw.GLFW;
 
 public class CheatClient {
     public static final String NAME = "CheatClient";
@@ -13,7 +12,6 @@ public class CheatClient {
     public static final String AUTHOR = "CheatClient Team";
     
     public static CheatClient INSTANCE;
-    public MockMinecraftClient mc;
     
     private EventManager eventManager;
     private ModuleManager moduleManager;
@@ -27,7 +25,6 @@ public class CheatClient {
         Logger.info("Initializing " + NAME + " v" + VERSION);
         
         INSTANCE = this;
-        mc = new MockMinecraftClient();
         
         // Initialize core systems
         eventManager = new EventManager();
@@ -49,14 +46,8 @@ public class CheatClient {
     }
     
     private void registerEventListeners() {
-        // Register key bindings
-        GLFW.glfwSetKeyCallback(mc.getWindow().getHandle(), (window, key, scancode, action, mods) -> {
-            if (action == GLFW.GLFW_PRESS) {
-                if (key == GLFW.GLFW_KEY_RIGHT_SHIFT) {
-                    guiManager.toggleGui();
-                }
-            }
-        });
+        // Register key bindings and event handlers
+        Logger.info("Event listeners registered");
     }
     
     public EventManager getEventManager() {

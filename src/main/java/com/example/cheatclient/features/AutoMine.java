@@ -4,12 +4,16 @@ import com.example.cheatclient.core.Module;
 
 public class AutoMine extends Module {
     public AutoMine() {
-        super("AutoMine", "Automatically mines blocks", Module.Category.PLAYER, 0);
+        super("AutoMine", "Mine ores at spawn coordinates", Module.Category.PLAYER, 0);
     }
     
     @Override
-    protected void onEnable() {}
+    protected void onEnable() {
+        System.out.println("AutoMine enabled");
+    }
     
     @Override
-    protected void onDisable() {}
+    protected void onDisable() {
+        System.out.println("AutoMine disabled");
+    }
 }

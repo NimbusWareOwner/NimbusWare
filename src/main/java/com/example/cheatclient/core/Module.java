@@ -1,7 +1,7 @@
 package com.example.cheatclient.core;
 
 import com.example.cheatclient.CheatClient;
-import com.example.cheatclient.config.ConfigManager;
+import com.example.cheatclient.utils.Logger;
 
 public abstract class Module {
     protected final String name;
@@ -34,12 +34,7 @@ public abstract class Module {
         onEnable();
         CheatClient.INSTANCE.getEventManager().register(this);
         
-        if (CheatClient.INSTANCE.mc.getPlayer() != null) {
-            CheatClient.INSTANCE.mc.getPlayer().sendMessage(
-                com.example.cheatclient.mock.MockText.literal("§a[CheatClient] §f" + name + " §aenabled"),
-                false
-            );
-        }
+        Logger.info("§a[CheatClient] §f" + name + " §aenabled");
     }
     
     public void disable() {
@@ -49,12 +44,7 @@ public abstract class Module {
         onDisable();
         CheatClient.INSTANCE.getEventManager().unregister(this);
         
-        if (CheatClient.INSTANCE.mc.getPlayer() != null) {
-            CheatClient.INSTANCE.mc.getPlayer().sendMessage(
-                com.example.cheatclient.mock.MockText.literal("§c[CheatClient] §f" + name + " §cdisabled"),
-                false
-            );
-        }
+        Logger.info("§c[CheatClient] §f" + name + " §cdisabled");
     }
     
     protected abstract void onEnable();

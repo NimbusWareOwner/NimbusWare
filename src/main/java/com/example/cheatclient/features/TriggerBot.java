@@ -2,11 +2,9 @@ package com.example.cheatclient.features;
 
 import com.example.cheatclient.core.Module;
 import com.example.cheatclient.anti_detection.AntiDetectionManager;
-import com.example.cheatclient.mock.MockEntity;
-import com.example.cheatclient.mock.MockHand;
 
 public class TriggerBot extends Module {
-    private int delay = 100; // milliseconds
+    private int delay = 100;
     private boolean targetPlayers = true;
     private boolean targetMobs = true;
     private boolean useFuntimeBypass = true;
@@ -22,6 +20,7 @@ public class TriggerBot extends Module {
         if (useFuntimeBypass) {
             AntiDetectionManager.enableFuntimeBypass("TriggerBot");
         }
+        System.out.println("TriggerBot enabled with " + delay + "ms delay");
     }
     
     @Override
@@ -29,100 +28,42 @@ public class TriggerBot extends Module {
         if (useFuntimeBypass) {
             AntiDetectionManager.disableFuntimeBypass("TriggerBot");
         }
+        System.out.println("TriggerBot disabled");
     }
     
     public void onTick() {
-        if (!isEnabled() || CheatClient.INSTANCE.mc.getPlayer() == null || CheatClient.INSTANCE.mc.getWorld() == null) {
-            return;
-        }
+        if (!isEnabled() || !isHoldingWeapon) return;
         
-        // Check if player is holding a weapon
-        if (!isHoldingWeapon) {
-            return;
-        }
-        
-        // Check delay
         long currentTime = System.currentTimeMillis();
-        if (currentTime - lastAttack < delay) {
-            return;
-        }
+        if (currentTime - lastAttack < delay) return;
         
-        // Check if crosshair is on a valid target
-        MockEntity target = getCrosshairTarget();
-        if (target != null && shouldTarget(target)) {
-            attack(target);
+        // Mock triggerbot logic
+        if (Math.random() < 0.1) { // 10% chance to attack
+            attack();
             lastAttack = currentTime;
         }
     }
     
-    private MockEntity getCrosshairTarget() {
-        // Mock implementation - in real client would get crosshair target
-        if (CheatClient.INSTANCE.mc.getCrosshairTarget() != null && 
-            CheatClient.INSTANCE.mc.getCrosshairTarget().getType() == com.example.cheatclient.mock.MockCrosshairTarget.Type.ENTITY) {
-            return CheatClient.INSTANCE.mc.getCrosshairTarget().getTargetEntity();
-        }
-        return null;
-    }
-    
-    private boolean shouldTarget(MockEntity entity) {
-        if (entity instanceof com.example.cheatclient.mock.MockPlayerEntity) {
-            return targetPlayers;
-        } else if (entity instanceof com.example.cheatclient.mock.MockMobEntity) {
-            return targetMobs;
-        }
-        return false;
-    }
-    
-    private void attack(MockEntity target) {
-        // Apply anti-detection modifications
+    private void attack() {
         if (useFuntimeBypass) {
             AntiDetectionManager.applyCombatModification("TriggerBot", 1.0f);
         }
-        
-        // Attack the target
-        CheatClient.INSTANCE.mc.getInteractionManager().attackEntity(CheatClient.INSTANCE.mc.getPlayer(), target);
-        CheatClient.INSTANCE.mc.getPlayer().swingHand(MockHand.MAIN_HAND);
-        
-        System.out.println("TriggerBot attacked: " + target.getName());
+        System.out.println("TriggerBot: Attacked target");
     }
     
-    public int getDelay() {
-        return delay;
-    }
+    // Getters and setters
+    public int getDelay() { return delay; }
+    public void setDelay(int delay) { this.delay = Math.max(0, delay); }
     
-    public void setDelay(int delay) {
-        this.delay = Math.max(0, delay);
-    }
+    public boolean isTargetPlayers() { return targetPlayers; }
+    public void setTargetPlayers(boolean targetPlayers) { this.targetPlayers = targetPlayers; }
     
-    public boolean isTargetPlayers() {
-        return targetPlayers;
-    }
+    public boolean isTargetMobs() { return targetMobs; }
+    public void setTargetMobs(boolean targetMobs) { this.targetMobs = targetMobs; }
     
-    public void setTargetPlayers(boolean targetPlayers) {
-        this.targetPlayers = targetPlayers;
-    }
+    public boolean isUseFuntimeBypass() { return useFuntimeBypass; }
+    public void setUseFuntimeBypass(boolean useFuntimeBypass) { this.useFuntimeBypass = useFuntimeBypass; }
     
-    public boolean isTargetMobs() {
-        return targetMobs;
-    }
-    
-    public void setTargetMobs(boolean targetMobs) {
-        this.targetMobs = targetMobs;
-    }
-    
-    public boolean isUseFuntimeBypass() {
-        return useFuntimeBypass;
-    }
-    
-    public void setUseFuntimeBypass(boolean useFuntimeBypass) {
-        this.useFuntimeBypass = useFuntimeBypass;
-    }
-    
-    public boolean isHoldingWeapon() {
-        return isHoldingWeapon;
-    }
-    
-    public void setHoldingWeapon(boolean holdingWeapon) {
-        isHoldingWeapon = holdingWeapon;
-    }
+    public boolean isHoldingWeapon() { return isHoldingWeapon; }
+    public void setHoldingWeapon(boolean holdingWeapon) { isHoldingWeapon = holdingWeapon; }
 }

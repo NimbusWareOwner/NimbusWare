@@ -8,8 +8,12 @@ public class Tracers extends Module {
     }
     
     @Override
-    protected void onEnable() {}
+    protected void onEnable() {
+        System.out.println("Tracers enabled");
+    }
     
     @Override
-    protected void onDisable() {}
+    protected void onDisable() {
+        System.out.println("Tracers disabled");
+    }
 }

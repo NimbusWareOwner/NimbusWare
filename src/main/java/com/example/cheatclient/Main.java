@@ -3,6 +3,8 @@ package com.example.cheatclient;
 import com.example.cheatclient.core.EventManager;
 import com.example.cheatclient.utils.Logger;
 
+import java.util.Scanner;
+
 public class Main {
     public static void main(String[] args) {
         Logger.info("Starting CheatClient...");
@@ -23,27 +25,72 @@ public class Main {
     
     private static void startMainLoop(CheatClient client) {
         Logger.info("CheatClient started successfully!");
-        Logger.info("Press RIGHT SHIFT to open the GUI");
+        Logger.info("Type 'gui' to open GUI, 'help' for commands, 'quit' to exit");
         
-        // This is a simplified main loop
-        // In a real implementation, you'd integrate with Minecraft's event system
+        Scanner scanner = new Scanner(System.in);
+        
         while (true) {
-            try {
-                // Process events
-                if (client.isInitialized()) {
+            System.out.print("CheatClient> ");
+            String input = scanner.nextLine().trim().toLowerCase();
+            
+            switch (input) {
+                case "gui":
+                    client.getGuiManager().toggleGui();
+                    break;
+                case "help":
+                    showHelp();
+                    break;
+                case "quit":
+                case "exit":
+                    Logger.info("Shutting down CheatClient...");
+                    System.exit(0);
+                    break;
+                case "list":
+                    listModules(client);
+                    break;
+                case "tick":
+                    // Simulate tick event
                     EventManager.TickEvent tickEvent = new EventManager.TickEvent();
                     client.getEventManager().post(tickEvent);
-                }
-                
-                // Sleep to prevent excessive CPU usage
-                Thread.sleep(50); // 20 TPS
-                
-            } catch (InterruptedException e) {
-                Logger.warn("Main loop interrupted");
-                break;
-            } catch (Exception e) {
-                Logger.error("Error in main loop: " + e.getMessage());
+                    break;
+                default:
+                    if (input.startsWith("toggle ")) {
+                        String moduleName = input.substring(7);
+                        toggleModule(client, moduleName);
+                    } else if (!input.isEmpty()) {
+                        System.out.println("Unknown command: " + input);
+                    }
+                    break;
             }
+        }
+    }
+    
+    private static void showHelp() {
+        System.out.println("\n=== CheatClient Commands ===");
+        System.out.println("gui          - Open/Close GUI");
+        System.out.println("list         - List all modules");
+        System.out.println("toggle <name> - Toggle a module");
+        System.out.println("tick         - Simulate game tick");
+        System.out.println("help         - Show this help");
+        System.out.println("quit/exit    - Exit the program");
+        System.out.println("=============================\n");
+    }
+    
+    private static void listModules(CheatClient client) {
+        System.out.println("\n=== Available Modules ===");
+        for (com.example.cheatclient.core.Module module : client.getModuleManager().getModules()) {
+            String status = module.isEnabled() ? "§aON" : "§cOFF";
+            System.out.println(module.getName() + " - " + status + " §f(" + module.getDescription() + ")");
+        }
+        System.out.println("==========================\n");
+    }
+    
+    private static void toggleModule(CheatClient client, String moduleName) {
+        com.example.cheatclient.core.Module module = client.getModuleManager().getModule(moduleName);
+        if (module != null) {
+            module.toggle();
+        } else {
+            System.out.println("Module not found: " + moduleName);
         }
     }
 }

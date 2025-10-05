@@ -4,12 +4,16 @@ import com.example.cheatclient.core.Module;
 
 public class AutoFarm extends Module {
     public AutoFarm() {
-        super("AutoFarm", "Automatically farms", Module.Category.PLAYER, 0);
+        super("AutoFarm", "Auto-farm with instant replanting", Module.Category.PLAYER, 0);
     }
     
     @Override
-    protected void onEnable() {}
+    protected void onEnable() {
+        System.out.println("AutoFarm enabled");
+    }
     
     @Override
-    protected void onDisable() {}
+    protected void onDisable() {
+        System.out.println("AutoFarm disabled");
+    }
 }
