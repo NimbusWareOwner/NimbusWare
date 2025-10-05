@@ -1,72 +1,81 @@
 plugins {
-    id 'fabric-loom' version '0.12-SNAPSHOT'
-    id 'maven-publish'
+    id 'java'
+    id 'application'
 }
 
-version = project.mod_version
-group = project.maven_group
+group = 'com.example'
+version = '1.0.0'
+sourceCompatibility = '8'
 
 repositories {
+    mavenCentral()
     maven {
-        name = 'Fabric'
-        url = 'https://maven.fabricmc.net/'
-    }
-    maven {
-        name = 'Jitpack'
-        url = 'https://jitpack.io'
+        name = 'Minecraft'
+        url = 'https://libraries.minecraft.net/'
     }
 }
 
 dependencies {
-    minecraft "com.mojang:minecraft:${project.minecraft_version}"
-    mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
-    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+    // Minecraft 1.16.5 libraries
+    implementation 'com.mojang:minecraft:1.16.5'
+    implementation 'com.mojang:brigadier:1.0.18'
+    implementation 'com.mojang:datafixerupper:4.0.26'
+    implementation 'com.mojang:authlib:2.1.28'
+    implementation 'com.mojang:patchy:1.1'
+    implementation 'com.mojang:text2speech:1.11.3'
     
     // Logging
-    implementation "org.slf4j:slf4j-api:1.7.30"
+    implementation 'org.slf4j:slf4j-api:1.7.30'
+    implementation 'org.apache.logging.log4j:log4j-slf4j-impl:2.17.1'
     
-    // JSON processing for config
-    implementation "com.google.code.gson:gson:2.8.9"
+    // JSON processing
+    implementation 'com.google.code.gson:gson:2.8.9'
+    
+    // Networking
+    implementation 'io.netty:netty-all:4.1.25.Final'
+    
+    // Utilities
+    implementation 'org.apache.commons:commons-lang3:3.12.0'
+    implementation 'commons-io:commons-io:2.11.0'
+    
+    // LWJGL for OpenGL
+    implementation 'org.lwjgl:lwjgl:3.2.3'
+    implementation 'org.lwjgl:lwjgl-glfw:3.2.3'
+    implementation 'org.lwjgl:lwjgl-opengl:3.2.3'
+    implementation 'org.lwjgl:lwjgl-stb:3.2.3'
+    
+    // Test dependencies
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.8.2'
 }
 
-processResources {
-    inputs.property "version", project.version
-
-    filesMatching("fabric.mod.json") {
-        expand "version": project.version
-    }
-}
-
-def targetJavaVersion = 8
-tasks.withType(JavaCompile).configureEach {
-    it.options.encoding = "UTF-8"
-    if (targetJavaVersion >= 10 || JavaVersion.current().isJava10Compatible()) {
-        it.options.release = targetJavaVersion
-    }
-}
-
-java {
-    def javaVersion = JavaVersion.toVersion(targetJavaVersion)
-    if (JavaVersion.current() < javaVersion) {
-        toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
-    }
-    archivesBaseName = project.archives_base_name
-    withSourcesJar()
+application {
+    mainClass = 'com.example.cheatclient.Main'
 }
 
 jar {
-    from("LICENSE") {
-        rename { "${it}_${project.archivesBaseName}"}
+    manifest {
+        attributes(
+            'Main-Class': 'com.example.cheatclient.Main',
+            'Implementation-Title': 'CheatClient',
+            'Implementation-Version': version
+        )
     }
+    
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
-publishing {
-    publications {
-        maven(MavenPublication) {
-            from components.java
-        }
-    }
-    repositories {
-    }
+test {
+    useJUnitPlatform()
+}
+
+compileJava {
+    options.encoding = 'UTF-8'
+}
+
+compileTestJava {
+    options.encoding = 'UTF-8'
 }
