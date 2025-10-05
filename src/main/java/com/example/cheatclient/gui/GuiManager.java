@@ -3,11 +3,7 @@ package com.example.cheatclient.gui;
 import com.example.cheatclient.CheatClient;
 import com.example.cheatclient.core.Module;
 import com.example.cheatclient.core.ModuleManager;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawableHelper;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.text.Text;
+import com.example.cheatclient.mock.MockMinecraftClient;
 
 import java.util.List;
 
@@ -25,44 +21,59 @@ public class GuiManager {
         return guiOpen;
     }
     
-    public void render(MatrixStack matrices, float partialTicks) {
+    public void render(Object matrices, float partialTicks) {
         if (!guiOpen) return;
         
-        MinecraftClient mc = CheatClient.mc;
+        MockMinecraftClient mc = CheatClient.INSTANCE.mc;
         if (mc == null) return;
         
-        // Render background
-        DrawableHelper.fill(matrices, 10, 10, 200, 300, 0x80000000);
+        // Render background (simplified)
+        System.out.println("Rendering GUI background");
         
-        // Render title
-        mc.textRenderer.drawWithShadow(matrices, "CheatClient v" + CheatClient.VERSION, 15, 15, 0xFFFFFF);
+        // Render title with anti-detection info
+        System.out.println("§6CheatClient §fv" + CheatClient.VERSION);
+        System.out.println("§7[Matrix & Funtime Bypass]");
         
         // Render categories
-        int y = 35;
+        int y = 45;
         for (int i = 0; i < categories.length; i++) {
             Module.Category category = categories[i];
-            int color = (i == selectedCategory) ? 0x00FF00 : 0xFFFFFF;
-            mc.textRenderer.drawWithShadow(matrices, category.getDisplayName(), 15, y, color);
+            String color = (i == selectedCategory) ? "§a" : "§f";
+            System.out.println(color + category.getDisplayName());
             y += 12;
         }
         
         // Render modules for selected category
         List<Module> modules = CheatClient.INSTANCE.getModuleManager().getModulesByCategory(categories[selectedCategory]);
-        y = 35;
+        y = 45;
         for (int i = 0; i < modules.size(); i++) {
             Module module = modules.get(i);
-            int color = module.isEnabled() ? 0x00FF00 : 0xFFFFFF;
+            String color = module.isEnabled() ? "§a" : "§f";
             if (i == selectedModule) {
-                color = 0xFF0000;
+                color = "§c";
             }
-            mc.textRenderer.drawWithShadow(matrices, 
-                (module.isEnabled() ? "§a" : "§f") + module.getName(), 120, y, color);
+            
+            // Add bypass indicators
+            String bypassInfo = "";
+            if (module.getName().contains("KillAura") || module.getName().contains("WaterSpeed") || 
+                module.getName().contains("Spider") || module.getName().contains("AutoClicker")) {
+                bypassInfo = " §8[Matrix+FT]";
+            } else if (module.getName().contains("AutoFish") || module.getName().contains("AutoTool")) {
+                bypassInfo = " §8[FT]";
+            }
+            
+            System.out.println(color + module.getName() + bypassInfo);
             y += 12;
         }
         
+        // Render status info
+        int enabledCount = CheatClient.INSTANCE.getModuleManager().getEnabledModules().size();
+        System.out.println("§7Enabled: §a" + enabledCount);
+        
         // Render instructions
-        mc.textRenderer.drawWithShadow(matrices, "WASD: Navigate", 15, 280, 0xAAAAAA);
-        mc.textRenderer.drawWithShadow(matrices, "Enter: Toggle", 15, 290, 0xAAAAAA);
+        System.out.println("§7WASD: Navigate");
+        System.out.println("§7Enter: Toggle");
+        System.out.println("§7ESC: Close");
     }
     
     public void handleKeyPress(int key) {

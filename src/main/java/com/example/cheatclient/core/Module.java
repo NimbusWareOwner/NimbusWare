@@ -34,9 +34,9 @@ public abstract class Module {
         onEnable();
         CheatClient.INSTANCE.getEventManager().register(this);
         
-        if (CheatClient.mc.player != null) {
-            CheatClient.mc.player.sendMessage(
-                net.minecraft.text.Text.literal("§a[CheatClient] §f" + name + " §aenabled"),
+        if (CheatClient.INSTANCE.mc.getPlayer() != null) {
+            CheatClient.INSTANCE.mc.getPlayer().sendMessage(
+                com.example.cheatclient.mock.MockText.literal("§a[CheatClient] §f" + name + " §aenabled"),
                 false
             );
         }
@@ -49,9 +49,9 @@ public abstract class Module {
         onDisable();
         CheatClient.INSTANCE.getEventManager().unregister(this);
         
-        if (CheatClient.mc.player != null) {
-            CheatClient.mc.player.sendMessage(
-                net.minecraft.text.Text.literal("§c[CheatClient] §f" + name + " §cdisabled"),
+        if (CheatClient.INSTANCE.mc.getPlayer() != null) {
+            CheatClient.INSTANCE.mc.getPlayer().sendMessage(
+                com.example.cheatclient.mock.MockText.literal("§c[CheatClient] §f" + name + " §cdisabled"),
                 false
             );
         }

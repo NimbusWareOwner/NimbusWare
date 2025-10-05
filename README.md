@@ -1,52 +1,65 @@
-# CheatClient - Standalone Minecraft Cheat Client
+# CheatClient - Advanced Minecraft Cheat Client
 
-A powerful standalone cheat client for Minecraft 1.16.5 with a comprehensive set of features.
+A powerful standalone cheat client for Minecraft 1.16.5 with advanced anti-detection and comprehensive features.
 
 ## ⚠️ Disclaimer
 
 This software is for educational purposes only. Use at your own risk and only on servers where cheating is allowed. The developers are not responsible for any consequences of using this software.
 
-## Features
+## 🚀 Features
 
 ### Movement
-- **Fly** - Creative mode flight
-- **Speed** - Increased movement speed
 - **Sprint** - Automatic sprinting
-- **NoFall** - Prevents fall damage
-- **Step** - Step up higher blocks
-- **Jesus** - Walk on water
+- **WaterSpeed** - Increased swimming speed with Funtime bypass
+- **Spider** - Climb walls like a spider with Funtime bypass
 
 ### Render
-- **XRay** - See through blocks to find ores
-- **ESP** - Highlight entities through walls
+- **XRay** - 2 modes: Normal (configurable ores) & Ancient (ancient debris only)
+- **ESP** - 3 types: Block ESP, Item ESP, Ancient ESP
 - **Tracers** - Draw lines to entities
-- **Fullbright** - Bright lighting
+- **Fullbright** - 2 modes: Potion effect & Custom brightness
 - **NoRender** - Disable certain rendering
 
 ### Combat
-- **KillAura** - Automatically attack nearby entities
-- **AutoClicker** - Automatic clicking
-- **AutoArmor** - Automatically equip armor
+- **KillAura** - Advanced killaura with Matrix & Funtime bypasses
+- **AutoClicker** - Tape mouse with configurable CPS
 - **AutoEat** - Automatically eat food
-- **AutoTool** - Select best tool for the job
+- **AutoTool** - Select best tool with Funtime bypass
+- **TriggerBot** - Auto-attack when crosshair is on target
 
 ### Player
-- **AutoFish** - Automatic fishing
-- **AutoMine** - Automatic mining
-- **AutoFarm** - Automatic farming
-- **AutoBuild** - Automatic building
+- **AutoFish** - Fast fishing with custom enchant support
+- **AutoMine** - Mine ores at spawn coordinates
+- **AutoFarm** - Auto-farm with instant replanting
+- **AutoBuild** - Build farms from schematics
+- **AutoCreeperFarm** - Manage creeper farms at coordinates
 
 ### World
-- **AutoWalk** - Automatic walking
-- **AutoJump** - Automatic jumping
-- **AutoPlace** - Automatic block placing
-- **AutoBreak** - Automatic block breaking
-
-### Misc
-- **AutoLog** - Automatic logout
+- **AutoWalk** - Baritone pathfinding integration
+- **AutoJump** - Configurable jump intervals
+- **AutoLog** - Auto-register with /reg command
 - **AutoRespawn** - Automatic respawn
 - **AutoReconnect** - Automatic reconnection
+- **AntiAFK** - Prevent AFK detection with random actions
+
+### Misc
 - **ChatBot** - Automatic chat responses
+
+## 🛡️ Anti-Detection Features
+
+### Bypass Systems
+- **Matrix Bypass** - Advanced bypass for Matrix anticheat
+- **Funtime Bypass** - Specialized bypass for Funtime servers
+- **Tape Mouse** - Prevents click pattern detection
+- **Randomization** - Random delays and variations to avoid detection
+- **Silent Rotation** - Smooth rotation to avoid detection
+
+### Advanced Features
+- **Custom Enchant Support** - Works with custom enchantments
+- **Coordinate-based Farming** - Manage farms at specific coordinates
+- **Baritone Integration** - Advanced pathfinding with Baritone
+- **Configurable Delays** - Customizable timing for all actions
+- **Anti-AFK System** - Prevents AFK detection with random actions
 
 ## Installation
 

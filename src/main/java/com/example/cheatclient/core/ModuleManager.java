@@ -16,12 +16,9 @@ public class ModuleManager {
         Logger.info("Registering modules...");
         
         // Movement modules
-        register(new Fly());
-        register(new Speed());
         register(new Sprint());
-        register(new NoFall());
-        register(new Step());
-        register(new Jesus());
+        register(new WaterSpeed());
+        register(new Spider());
         
         // Render modules
         register(new XRay());
@@ -33,27 +30,27 @@ public class ModuleManager {
         // Combat modules
         register(new KillAura());
         register(new AutoClicker());
-        register(new AutoArmor());
         register(new AutoEat());
         register(new AutoTool());
+        register(new TriggerBot());
         
         // Player modules
         register(new AutoFish());
         register(new AutoMine());
         register(new AutoFarm());
         register(new AutoBuild());
+        register(new AutoCreeperFarm());
         
         // World modules
         register(new AutoWalk());
         register(new AutoJump());
-        register(new AutoPlace());
-        register(new AutoBreak());
         
         // Misc modules
         register(new AutoLog());
         register(new AutoRespawn());
         register(new AutoReconnect());
         register(new ChatBot());
+        register(new AntiAFK());
         
         Logger.info("Registered " + modules.size() + " modules");
     }

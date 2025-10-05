@@ -13,7 +13,7 @@ public class CheatClient {
     public static final String AUTHOR = "CheatClient Team";
     
     public static CheatClient INSTANCE;
-    public static MockMinecraftClient mc;
+    public MockMinecraftClient mc;
     
     private EventManager eventManager;
     private ModuleManager moduleManager;

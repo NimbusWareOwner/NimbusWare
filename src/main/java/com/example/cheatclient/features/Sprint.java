@@ -14,17 +14,17 @@ public class Sprint extends Module {
     
     @Override
     protected void onDisable() {
-        if (CheatClient.mc.player != null) {
-            CheatClient.mc.player.setSprinting(false);
+        if (CheatClient.INSTANCE.mc.getPlayer() != null) {
+            CheatClient.INSTANCE.mc.getPlayer().setSprinting(false);
         }
     }
     
     public void onTick() {
-        if (CheatClient.mc.player != null && isEnabled()) {
+        if (CheatClient.INSTANCE.mc.getPlayer() != null && isEnabled()) {
             // Auto sprint when moving forward
-            if (CheatClient.mc.options.forwardKey.isPressed() && 
-                !CheatClient.mc.options.sneakKey.isPressed()) {
-                CheatClient.mc.player.setSprinting(true);
+            if (CheatClient.INSTANCE.mc.getOptions().forwardKey.isPressed() && 
+                !CheatClient.INSTANCE.mc.getOptions().sneakKey.isPressed()) {
+                CheatClient.INSTANCE.mc.getPlayer().setSprinting(true);
             }
         }
     }

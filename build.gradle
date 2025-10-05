@@ -16,23 +16,12 @@ repositories {
 }
 
 dependencies {
-    // Minecraft 1.16.5 libraries
-    implementation 'com.mojang:minecraft:1.16.5'
-    implementation 'com.mojang:brigadier:1.0.18'
-    implementation 'com.mojang:datafixerupper:4.0.26'
-    implementation 'com.mojang:authlib:2.1.28'
-    implementation 'com.mojang:patchy:1.1'
-    implementation 'com.mojang:text2speech:1.11.3'
-    
     // Logging
     implementation 'org.slf4j:slf4j-api:1.7.30'
     implementation 'org.apache.logging.log4j:log4j-slf4j-impl:2.17.1'
     
     // JSON processing
     implementation 'com.google.code.gson:gson:2.8.9'
-    
-    // Networking
-    implementation 'io.netty:netty-all:4.1.25.Final'
     
     // Utilities
     implementation 'org.apache.commons:commons-lang3:3.12.0'
