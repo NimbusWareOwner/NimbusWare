@@ -29,9 +29,18 @@ public class Main {
         
         Scanner scanner = new Scanner(System.in);
         
+        // Start background tick simulation
+        startTickSimulation(client);
+        
         while (true) {
             System.out.print("CheatClient> ");
-            String input = scanner.nextLine().trim().toLowerCase();
+            String input = "";
+            try {
+                input = scanner.nextLine().trim().toLowerCase();
+            } catch (Exception e) {
+                Logger.error("Input error: " + e.getMessage());
+                break;
+            }
             
             switch (input) {
                 case "gui":
@@ -92,5 +101,29 @@ public class Main {
         } else {
             System.out.println("Module not found: " + moduleName);
         }
+    }
+    
+    private static void startTickSimulation(CheatClient client) {
+        Thread tickThread = new Thread(() -> {
+            while (true) {
+                try {
+                    // Simulate game tick every 50ms (20 TPS)
+                    Thread.sleep(50);
+                    
+                    // Post tick event to all registered listeners
+                    EventManager.TickEvent tickEvent = new EventManager.TickEvent();
+                    client.getEventManager().post(tickEvent);
+                    
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    break;
+                } catch (Exception e) {
+                    Logger.error("Error in tick simulation: " + e.getMessage());
+                }
+            }
+        });
+        
+        tickThread.setDaemon(true);
+        tickThread.start();
     }
 }

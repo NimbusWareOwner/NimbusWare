@@ -44,6 +44,8 @@ This software is for educational purposes only. Use at your own risk and only on
 
 ### Misc
 - **ChatBot** - Automatic chat responses
+- **AutoBuy** - Automatically buy Funtime server slots
+- **AutoBuyAdvanced** - Advanced autobuy with account rotation
 
 ## 🛡️ Anti-Detection Features
 

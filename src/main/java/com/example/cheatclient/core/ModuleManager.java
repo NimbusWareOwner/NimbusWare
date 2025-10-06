@@ -51,6 +51,8 @@ public class ModuleManager {
         register(new AutoReconnect());
         register(new ChatBot());
         register(new AntiAFK());
+        register(new AutoBuy());
+        register(new AutoBuyAdvanced());
         
         Logger.info("Registered " + modules.size() + " modules");
     }
