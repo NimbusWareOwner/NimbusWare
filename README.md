@@ -33,6 +33,9 @@ This software is for educational purposes only. Use at your own risk and only on
 - **AutoFarm** - Auto-farm with instant replanting
 - **AutoBuild** - Build farms from schematics
 - **AutoCreeperFarm** - Manage creeper farms at coordinates
+- **ChestStealer** - Automatic chest stealing with filtering
+- **ChestStealerAdvanced** - Advanced chest stealing with smart features
+- **SwordCraft** - Automated sword crafting for money making
 
 ### World
 - **AutoWalk** - Baritone pathfinding integration
@@ -46,6 +49,7 @@ This software is for educational purposes only. Use at your own risk and only on
 - **ChatBot** - Automatic chat responses
 - **AutoBuy** - Automatically buy Funtime server slots
 - **AutoBuyAdvanced** - Advanced autobuy with account rotation
+- **AccountConnector** - Connect and manage multiple AutoBuy accounts
 
 ## 🛡️ Anti-Detection Features
 

@@ -43,6 +43,7 @@ public class ModuleManager {
         register(new AutoCreeperFarm());
         register(new ChestStealer());
         register(new ChestStealerAdvanced());
+        register(new SwordCraft());
         
         // World modules
         register(new AutoWalk());
@@ -56,6 +57,7 @@ public class ModuleManager {
         register(new AntiAFK());
         register(new AutoBuy());
         register(new AutoBuyAdvanced());
+        register(new AccountConnector());
         
         Logger.info("Registered " + modules.size() + " modules");
     }
