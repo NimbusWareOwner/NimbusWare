@@ -6,6 +6,7 @@ import com.example.cheatclient.gui.GuiManager;
 import com.example.cheatclient.gui.MainMenu;
 import com.example.cheatclient.gui.AccountManager;
 import com.example.cheatclient.gui.HUDManager;
+import com.example.cheatclient.core.KeyManager;
 import com.example.cheatclient.config.ConfigManager;
 import com.example.cheatclient.utils.Logger;
 
@@ -22,8 +23,10 @@ public class CheatClient {
     private MainMenu mainMenu;
     private AccountManager accountManager;
     private HUDManager hudManager;
+    private KeyManager keyManager;
     private ConfigManager configManager;
     private boolean initialized = false;
+    private long startTime;
     
     public void initialize() {
         if (initialized) return;
@@ -39,7 +42,9 @@ public class CheatClient {
         mainMenu = new MainMenu(this);
         accountManager = new AccountManager(this);
         hudManager = HUDManager.getInstance(this);
+        keyManager = KeyManager.getInstance(this);
         configManager = new ConfigManager();
+        startTime = System.currentTimeMillis();
         
         // Register modules
         moduleManager.registerModules();
@@ -81,6 +86,14 @@ public class CheatClient {
     
     public HUDManager getHUDManager() {
         return hudManager;
+    }
+    
+    public KeyManager getKeyManager() {
+        return keyManager;
+    }
+    
+    public long getStartTime() {
+        return startTime;
     }
     
     public ConfigManager getConfigManager() {

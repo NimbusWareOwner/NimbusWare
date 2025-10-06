@@ -1,6 +1,7 @@
 package com.example.cheatclient;
 
 import com.example.cheatclient.core.EventManager;
+import com.example.cheatclient.core.KeySimulator;
 import com.example.cheatclient.utils.Logger;
 
 import java.util.Scanner;
@@ -25,9 +26,14 @@ public class Main {
     
     private static void startMainLoop(CheatClient client) {
         Logger.info("NimbusWare started successfully!");
-        Logger.info("Type 'menu' for main menu, 'gui' for GUI, 'help' for commands, 'quit' to exit");
+        Logger.info("Right Shift - Open main menu");
+        Logger.info("Type 'menu' for main menu, 'h' for key help, 'quit' to exit");
         
         Scanner scanner = new Scanner(System.in);
+        
+        // Start key simulator
+        KeySimulator keySimulator = new KeySimulator(client);
+        keySimulator.start();
         
         // Start background tick simulation
         startTickSimulation(client);
@@ -55,6 +61,19 @@ public class Main {
                     break;
                 case "help":
                     showHelp();
+                    break;
+                case "h":
+                    Logger.info("=== NimbusWare Key Bindings ===");
+                    Logger.info("Right Shift - Open Main Menu");
+                    Logger.info("F1 - Toggle GUI");
+                    Logger.info("F2 - List Modules");
+                    Logger.info("F3 - AutoBuy Settings");
+                    Logger.info("F4 - Account Manager");
+                    Logger.info("F5 - Statistics");
+                    Logger.info("F6 - Help");
+                    Logger.info("Escape - Close Menus");
+                    Logger.info("1-0 - Quick Module Toggle");
+                    Logger.info("==============================");
                     break;
                 case "quit":
                 case "exit":
