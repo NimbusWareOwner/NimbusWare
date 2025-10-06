@@ -99,41 +99,6 @@ public class KeyManager {
             client.getMainMenu().open();
         });
         
-        // F1 - Toggle GUI
-        registerKeyBinding(KEY_F1, "Toggle GUI", () -> {
-            Logger.info("Toggling GUI...");
-            // Toggle GUI implementation
-        });
-        
-        // F2 - List modules
-        registerKeyBinding(KEY_F2, "List Modules", () -> {
-            Logger.info("Listing modules...");
-            listModules();
-        });
-        
-        // F3 - AutoBuy settings
-        registerKeyBinding(KEY_F3, "AutoBuy Settings", () -> {
-            Logger.info("Opening AutoBuy settings...");
-            openAutoBuySettings();
-        });
-        
-        // F4 - Account Manager
-        registerKeyBinding(KEY_F4, "Account Manager", () -> {
-            Logger.info("Opening Account Manager...");
-            client.getAccountManager().open();
-        });
-        
-        // F5 - Statistics
-        registerKeyBinding(KEY_F5, "Statistics", () -> {
-            Logger.info("Showing statistics...");
-            showStatistics();
-        });
-        
-        // F6 - Help
-        registerKeyBinding(KEY_F6, "Help", () -> {
-            Logger.info("Showing help...");
-            showHelp();
-        });
         
         // Escape - Close menus
         registerKeyBinding(KEY_ESCAPE, "Close Menu", () -> {

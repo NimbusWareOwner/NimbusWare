@@ -65,12 +65,6 @@ public class Main {
                 case "h":
                     Logger.info("=== NimbusWare Key Bindings ===");
                     Logger.info("Right Shift - Open Main Menu");
-                    Logger.info("F1 - Toggle GUI");
-                    Logger.info("F2 - List Modules");
-                    Logger.info("F3 - AutoBuy Settings");
-                    Logger.info("F4 - Account Manager");
-                    Logger.info("F5 - Statistics");
-                    Logger.info("F6 - Help");
                     Logger.info("Escape - Close Menus");
                     Logger.info("1-0 - Quick Module Toggle");
                     Logger.info("==============================");

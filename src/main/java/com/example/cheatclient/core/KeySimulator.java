@@ -90,24 +90,6 @@ public class KeySimulator {
             case "menu":
                 keyManager.onKeyPress(KeyManager.KEY_RIGHT_SHIFT);
                 break;
-            case "f1":
-                keyManager.onKeyPress(KeyManager.KEY_F1);
-                break;
-            case "f2":
-                keyManager.onKeyPress(KeyManager.KEY_F2);
-                break;
-            case "f3":
-                keyManager.onKeyPress(KeyManager.KEY_F3);
-                break;
-            case "f4":
-                keyManager.onKeyPress(KeyManager.KEY_F4);
-                break;
-            case "f5":
-                keyManager.onKeyPress(KeyManager.KEY_F5);
-                break;
-            case "f6":
-                keyManager.onKeyPress(KeyManager.KEY_F6);
-                break;
             case "esc":
                 keyManager.onKeyPress(KeyManager.KEY_ESCAPE);
                 break;
@@ -151,12 +133,6 @@ public class KeySimulator {
         Logger.info("=== NimbusWare Key Simulator ===");
         Logger.info("Commands:");
         Logger.info("  menu  - Open main menu (Right Shift)");
-        Logger.info("  f1    - Toggle GUI");
-        Logger.info("  f2    - List modules");
-        Logger.info("  f3    - AutoBuy settings");
-        Logger.info("  f4    - Account Manager");
-        Logger.info("  f5    - Statistics");
-        Logger.info("  f6    - Help");
         Logger.info("  esc   - Close menus");
         Logger.info("  1-0   - Quick module toggle");
         Logger.info("  h     - Show this help");

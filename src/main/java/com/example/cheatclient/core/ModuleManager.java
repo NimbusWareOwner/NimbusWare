@@ -27,6 +27,8 @@ public class ModuleManager {
         register(new Fullbright());
         register(new NoRender());
         register(new GPS());
+        register(new TargetESP());
+        register(new TargetHUD());
         
         // Combat modules
         register(new KillAura());
