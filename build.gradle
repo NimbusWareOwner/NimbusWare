@@ -1,0 +1,63 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group = 'com.example'
+version = '1.0.0'
+sourceCompatibility = '8'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Logging
+    implementation 'org.slf4j:slf4j-api:1.7.30'
+    implementation 'org.apache.logging.log4j:log4j-slf4j-impl:2.17.1'
+    
+    // JSON processing
+    implementation 'com.google.code.gson:gson:2.8.9'
+    
+    // Utilities
+    implementation 'org.apache.commons:commons-lang3:3.12.0'
+    implementation 'commons-io:commons-io:2.11.0'
+    
+    // Networking
+    implementation 'io.netty:netty-all:4.1.25.Final'
+    
+    // Test dependencies
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.8.2'
+}
+
+application {
+    mainClass = 'com.example.nimbusware.Main'
+}
+
+jar {
+    manifest {
+        attributes(
+            'Main-Class': 'com.example.nimbusware.Main',
+            'Implementation-Title': 'NimbusWare',
+            'Implementation-Version': version
+        )
+    }
+    
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+test {
+    useJUnitPlatform()
+}
+
+compileJava {
+    options.encoding = 'UTF-8'
+}
+
+compileTestJava {
+    options.encoding = 'UTF-8'
+}
