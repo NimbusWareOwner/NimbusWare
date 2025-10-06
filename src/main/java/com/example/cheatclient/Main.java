@@ -46,6 +46,9 @@ public class Main {
                 case "gui":
                     client.getGuiManager().toggleGui();
                     break;
+                case "autobuy":
+                    openAutoBuySettings(client);
+                    break;
                 case "help":
                     showHelp();
                     break;
@@ -74,11 +77,21 @@ public class Main {
         }
     }
     
+    private static void openAutoBuySettings(CheatClient client) {
+        com.example.cheatclient.core.Module autobuyModule = client.getModuleManager().getModule("AutoBuy");
+        if (autobuyModule != null && autobuyModule instanceof com.example.cheatclient.features.AutoBuy) {
+            ((com.example.cheatclient.features.AutoBuy) autobuyModule).openSettingsGui();
+        } else {
+            System.out.println("AutoBuy module not found!");
+        }
+    }
+    
     private static void showHelp() {
         System.out.println("\n=== CheatClient Commands ===");
         System.out.println("gui          - Open/Close GUI");
         System.out.println("list         - List all modules");
         System.out.println("toggle <name> - Toggle a module");
+        System.out.println("autobuy      - Open AutoBuy settings");
         System.out.println("tick         - Simulate game tick");
         System.out.println("help         - Show this help");
         System.out.println("quit/exit    - Exit the program");

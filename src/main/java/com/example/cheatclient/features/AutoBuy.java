@@ -3,6 +3,10 @@ package com.example.cheatclient.features;
 import com.example.cheatclient.core.Module;
 import com.example.cheatclient.anti_detection.AntiDetectionManager;
 import com.example.cheatclient.utils.Logger;
+import com.example.cheatclient.features.autobuy.AutoBuySettings;
+import com.example.cheatclient.features.autobuy.AutoBuyGui;
+import com.example.cheatclient.features.autobuy.AutoBuyItem;
+import com.example.cheatclient.features.autobuy.AutoBuyDemo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,10 +39,20 @@ public class AutoBuy extends Module {
     private int maxQueueSize = 100;
     private boolean autoBuyEnabled = true;
     
+    // Settings and GUI
+    private AutoBuySettings settings;
+    private AutoBuyGui gui;
+    private AutoBuyDemo demo;
+    
     private Random random = new Random();
     
     public AutoBuy() {
         super("AutoBuy", "Automatically buys Funtime server slots with multiple accounts", Module.Category.MISC, 0);
+        
+        // Initialize settings and GUI
+        this.settings = new AutoBuySettings();
+        this.gui = new AutoBuyGui(settings);
+        this.demo = new AutoBuyDemo(settings);
         
         // Initialize default accounts (these would be configured by user)
         initializeDefaultAccounts();
@@ -249,6 +263,46 @@ public class AutoBuy extends Module {
     public boolean isInQueue() { return isInQueue; }
     public int getQueuePosition() { return queuePosition; }
     public int getMaxQueueSize() { return maxQueueSize; }
+    
+    // GUI and Settings methods
+    public void openSettingsGui() {
+        gui.open();
+    }
+    
+    public AutoBuySettings getSettings() {
+        return settings;
+    }
+    
+    public AutoBuyGui getGui() {
+        return gui;
+    }
+    
+    public void addItemToWatchlist(AutoBuyItem item) {
+        settings.addItem(item);
+        Logger.info("Added item to watchlist: " + item.getDisplayName());
+    }
+    
+    public void removeItemFromWatchlist(String itemName) {
+        settings.removeItem(itemName);
+        Logger.info("Removed item from watchlist: " + itemName);
+    }
+    
+    public List<AutoBuyItem> getWatchlistItems() {
+        return settings.getEnabledItems();
+    }
+    
+    public void simulatePurchase(AutoBuyItem item, int quantity) {
+        settings.getPurchaseHistory().addPurchase(item, quantity, "AutoBuy");
+        Logger.info("Simulated purchase: " + quantity + "x " + item.getDisplayName() + " for " + (item.getPrice() * quantity) + " coins");
+    }
+    
+    public void runDemo() {
+        demo.simulateMarketActivity();
+    }
+    
+    public void showMarketStatus() {
+        demo.showMarketStatus();
+    }
     
     // Inner classes
     public static class Account {
