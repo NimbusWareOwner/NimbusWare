@@ -25,7 +25,7 @@ public class Main {
     
     private static void startMainLoop(CheatClient client) {
         Logger.info("CheatClient started successfully!");
-        Logger.info("Type 'gui' to open GUI, 'help' for commands, 'quit' to exit");
+        Logger.info("Type 'menu' for main menu, 'gui' for GUI, 'help' for commands, 'quit' to exit");
         
         Scanner scanner = new Scanner(System.in);
         
@@ -45,6 +45,10 @@ public class Main {
             switch (input) {
                 case "gui":
                     client.getGuiManager().toggleGui();
+                    break;
+                case "menu":
+                case "main":
+                    client.getMainMenu().open();
                     break;
                 case "autobuy":
                     openAutoBuySettings(client);
@@ -88,6 +92,7 @@ public class Main {
     
     private static void showHelp() {
         System.out.println("\n=== CheatClient Commands ===");
+        System.out.println("menu         - Open main menu");
         System.out.println("gui          - Open/Close GUI");
         System.out.println("list         - List all modules");
         System.out.println("toggle <name> - Toggle a module");
