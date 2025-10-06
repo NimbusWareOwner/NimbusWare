@@ -22,7 +22,9 @@ public class ConfigManager {
     public void loadConfig() {
         if (configFile.exists()) {
             try (FileReader reader = new FileReader(configFile)) {
-                config = gson.fromJson(reader, Map.class);
+                @SuppressWarnings("unchecked")
+                Map<String, Object> loadedConfig = gson.fromJson(reader, Map.class);
+                config = loadedConfig;
                 Logger.info("Configuration loaded from " + configFile.getName());
             } catch (IOException e) {
                 Logger.error("Failed to load config: " + e.getMessage());
