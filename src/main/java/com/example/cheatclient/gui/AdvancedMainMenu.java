@@ -52,62 +52,62 @@ public class AdvancedMainMenu {
     private void initializeMenu() {
         // Main page
         MenuPage mainPage = new MenuPage("Main Menu", Arrays.asList(
-            new MenuOption("🎮 Module Manager", "Manage all cheat modules", "modules"),
-            new MenuOption("🛒 AutoBuy System", "Advanced AutoBuy features", "autobuy"),
-            new MenuOption("👥 Account Manager", "Manage multiple accounts", "accounts"),
-            new MenuOption("💰 Money Making", "Automated money making", "money"),
-            new MenuOption("🎨 Visual Settings", "Customize appearance", "visual"),
-            new MenuOption("🖥️ HUD Settings", "Configure HUD display", "hud"),
-            new MenuOption("🎭 Theme Settings", "Change visual themes", "themes"),
-            new MenuOption("⚙️ Advanced Settings", "Advanced configuration", "advanced"),
-            new MenuOption("📊 Statistics", "View performance stats", "stats"),
-            new MenuOption("❓ Help & Support", "Get help and support", "help"),
-            new MenuOption("🚪 Exit", "Exit the application", "exit")
+            new MenuOption("🎮", "Module Manager", "Manage all cheat modules", "modules"),
+            new MenuOption("🛒", "AutoBuy System", "Advanced AutoBuy features", "autobuy"),
+            new MenuOption("👥", "Account Manager", "Manage multiple accounts", "accounts"),
+            new MenuOption("💰", "Money Making", "Automated money making", "money"),
+            new MenuOption("🎨", "Visual Settings", "Customize appearance", "visual"),
+            new MenuOption("🖥️", "HUD Settings", "Configure HUD display", "hud"),
+            new MenuOption("🎭", "Theme Settings", "Change visual themes", "themes"),
+            new MenuOption("⚙️", "Advanced Settings", "Advanced configuration", "advanced"),
+            new MenuOption("📊", "Statistics", "View performance stats", "stats"),
+            new MenuOption("❓", "Help & Support", "Get help and support", "help"),
+            new MenuOption("🚪", "Exit", "Exit the application", "exit")
         ));
         pages.add(mainPage);
         
         // Module Manager page
         MenuPage modulePage = new MenuPage("Module Manager", Arrays.asList(
-            new MenuOption("🔧 Movement Modules", "Configure movement cheats", "movement"),
-            new MenuOption("👁️ Render Modules", "Configure visual cheats", "render"),
-            new MenuOption("⚔️ Combat Modules", "Configure combat cheats", "combat"),
-            new MenuOption("👤 Player Modules", "Configure player cheats", "player"),
-            new MenuOption("🌍 World Modules", "Configure world cheats", "world"),
-            new MenuOption("🔧 Misc Modules", "Configure miscellaneous cheats", "misc"),
-            new MenuOption("🔙 Back to Main", "Return to main menu", "back")
+            new MenuOption("🔧", "Movement Modules", "Configure movement cheats", "movement"),
+            new MenuOption("👁️", "Render Modules", "Configure visual cheats", "render"),
+            new MenuOption("⚔️", "Combat Modules", "Configure combat cheats", "combat"),
+            new MenuOption("👤", "Player Modules", "Configure player cheats", "player"),
+            new MenuOption("🌍", "World Modules", "Configure world cheats", "world"),
+            new MenuOption("🔧", "Misc Modules", "Configure miscellaneous cheats", "misc"),
+            new MenuOption("🔙", "Back to Main", "Return to main menu", "back")
         ));
         pages.add(modulePage);
         
         // Visual Settings page
         MenuPage visualPage = new MenuPage("Visual Settings", Arrays.asList(
-            new MenuOption("🎨 Color Settings", "Configure color scheme", "colors"),
-            new MenuOption("✨ Effect Settings", "Configure visual effects", "effects"),
-            new MenuOption("🎬 Animation Settings", "Configure animations", "animations"),
-            new MenuOption("🔤 Font Settings", "Configure text appearance", "fonts"),
-            new MenuOption("📐 Layout Settings", "Configure interface layout", "layout"),
-            new MenuOption("🔙 Back to Main", "Return to main menu", "back")
+            new MenuOption("🎨", "Color Settings", "Configure color scheme", "colors"),
+            new MenuOption("✨", "Effect Settings", "Configure visual effects", "effects"),
+            new MenuOption("🎬", "Animation Settings", "Configure animations", "animations"),
+            new MenuOption("🔤", "Font Settings", "Configure text appearance", "fonts"),
+            new MenuOption("📐", "Layout Settings", "Configure interface layout", "layout"),
+            new MenuOption("🔙", "Back to Main", "Return to main menu", "back")
         ));
         pages.add(visualPage);
         
         // Theme Settings page
         MenuPage themePage = new MenuPage("Theme Settings", Arrays.asList(
-            new MenuOption("🌙 Dark Theme", "Apply dark theme", "dark"),
-            new MenuOption("☀️ Light Theme", "Apply light theme", "light"),
-            new MenuOption("🌈 Rainbow Theme", "Apply rainbow theme", "rainbow"),
-            new MenuOption("🔮 Matrix Theme", "Apply matrix theme", "matrix"),
-            new MenuOption("🎉 Funtime Theme", "Apply funtime theme", "funtime"),
-            new MenuOption("🎨 Custom Theme", "Create custom theme", "custom"),
-            new MenuOption("🔙 Back to Main", "Return to main menu", "back")
+            new MenuOption("🌙", "Dark Theme", "Apply dark theme", "dark"),
+            new MenuOption("☀️", "Light Theme", "Apply light theme", "light"),
+            new MenuOption("🌈", "Rainbow Theme", "Apply rainbow theme", "rainbow"),
+            new MenuOption("🔮", "Matrix Theme", "Apply matrix theme", "matrix"),
+            new MenuOption("🎉", "Funtime Theme", "Apply funtime theme", "funtime"),
+            new MenuOption("🎨", "Custom Theme", "Create custom theme", "custom"),
+            new MenuOption("🔙", "Back to Main", "Return to main menu", "back")
         ));
         pages.add(themePage);
         
         // HUD Settings page
         MenuPage hudPage = new MenuPage("HUD Settings", Arrays.asList(
-            new MenuOption("📊 Display Elements", "Configure HUD elements", "elements"),
-            new MenuOption("📍 Positioning", "Configure element positions", "positioning"),
-            new MenuOption("🎨 Styling", "Configure HUD appearance", "styling"),
-            new MenuOption("✨ Effects", "Configure HUD effects", "hud_effects"),
-            new MenuOption("🔙 Back to Main", "Return to main menu", "back")
+            new MenuOption("📊", "Display Elements", "Configure HUD elements", "elements"),
+            new MenuOption("📍", "Positioning", "Configure element positions", "positioning"),
+            new MenuOption("🎨", "Styling", "Configure HUD appearance", "styling"),
+            new MenuOption("✨", "Effects", "Configure HUD effects", "hud_effects"),
+            new MenuOption("🔙", "Back to Main", "Return to main menu", "back")
         ));
         pages.add(hudPage);
     }
@@ -135,7 +135,7 @@ public class AdvancedMainMenu {
         
         // Add welcome notification
         if (client.getHUDManager() != null) {
-            client.getHUDManager().addNotification("§aWelcome to CheatClient!", 3000);
+            client.getHUDManager().addNotification("§aWelcome to NimbusWare!", 3000);
         }
         
         showMenu();
@@ -209,22 +209,22 @@ public class AdvancedMainMenu {
     
     private String getAnimatedHeader() {
         if (!showAnimations) {
-            return "§l§bCheatClient §7v1.0.0";
+            return "§l§bNimbusWare §7v1.0.0";
         }
         
         String[] headers = {
-            "§l§bCheatClient §7v1.0.0",
-            "§l§aCheatClient §7v1.0.0",
-            "§l§cCheatClient §7v1.0.0",
-            "§l§eCheatClient §7v1.0.0",
-            "§l§dCheatClient §7v1.0.0",
-            "§l§bCheatClient §7v1.0.0"
+            "§l§bNimbusWare §7v1.0.0",
+            "§l§aNimbusWare §7v1.0.0",
+            "§l§cNimbusWare §7v1.0.0",
+            "§l§eNimbusWare §7v1.0.0",
+            "§l§dNimbusWare §7v1.0.0",
+            "§l§bNimbusWare §7v1.0.0"
         };
         
         if (showRainbow) {
             return headers[animationFrame % headers.length];
         } else if (showMatrix) {
-            return "§a" + generateMatrixString() + " §l§bCheatClient §7v1.0.0";
+            return "§a" + generateMatrixString() + " §l§bNimbusWare §7v1.0.0";
         } else {
             return headers[0];
         }
@@ -603,7 +603,7 @@ public class AdvancedMainMenu {
     private void startAnimation() {
         animating = true;
         animationFrame = 0;
-        animationText = "CheatClient";
+        animationText = "NimbusWare";
         animationIndex = 0;
     }
     

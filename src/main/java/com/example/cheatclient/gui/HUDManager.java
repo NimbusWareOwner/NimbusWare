@@ -117,7 +117,7 @@ public class HUDManager {
         elements.add(new HUDElement("armor", "Armor: {armor}/20", armorPosition, true));
         elements.add(new HUDElement("experience", "XP: {experience}", experiencePosition, true));
         elements.add(new HUDElement("modules", "Modules: {modules}", modulesPosition, true));
-        elements.add(new HUDElement("watermark", "§l§bCheatClient §7v1.0.0", watermarkPosition, true));
+        elements.add(new HUDElement("watermark", "§l§bNimbusWare §7v1.0.0", watermarkPosition, true));
         
         // Initialize HUD data
         updateHUDData();

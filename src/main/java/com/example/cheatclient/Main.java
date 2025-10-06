@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        Logger.info("Starting CheatClient...");
+        Logger.info("Starting NimbusWare...");
         
         try {
             // Initialize the cheat client
@@ -18,13 +18,13 @@ public class Main {
             startMainLoop(client);
             
         } catch (Exception e) {
-            Logger.error("Failed to start CheatClient: " + e.getMessage());
+            Logger.error("Failed to start NimbusWare: " + e.getMessage());
             e.printStackTrace();
         }
     }
     
     private static void startMainLoop(CheatClient client) {
-        Logger.info("CheatClient started successfully!");
+        Logger.info("NimbusWare started successfully!");
         Logger.info("Type 'menu' for main menu, 'gui' for GUI, 'help' for commands, 'quit' to exit");
         
         Scanner scanner = new Scanner(System.in);
@@ -33,7 +33,7 @@ public class Main {
         startTickSimulation(client);
         
         while (true) {
-            System.out.print("CheatClient> ");
+            System.out.print("NimbusWare> ");
             String input = "";
             try {
                 input = scanner.nextLine().trim().toLowerCase();
@@ -58,7 +58,7 @@ public class Main {
                     break;
                 case "quit":
                 case "exit":
-                    Logger.info("Shutting down CheatClient...");
+                    Logger.info("Shutting down NimbusWare...");
                     System.exit(0);
                     break;
                 case "list":
@@ -91,7 +91,7 @@ public class Main {
     }
     
     private static void showHelp() {
-        System.out.println("\n=== CheatClient Commands ===");
+        System.out.println("\n=== NimbusWare Commands ===");
         System.out.println("menu         - Open main menu");
         System.out.println("gui          - Open/Close GUI");
         System.out.println("list         - List all modules");

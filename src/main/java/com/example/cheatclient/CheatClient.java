@@ -5,6 +5,7 @@ import com.example.cheatclient.core.ModuleManager;
 import com.example.cheatclient.gui.GuiManager;
 import com.example.cheatclient.gui.MainMenu;
 import com.example.cheatclient.gui.AccountManager;
+import com.example.cheatclient.gui.HUDManager;
 import com.example.cheatclient.config.ConfigManager;
 import com.example.cheatclient.utils.Logger;
 
@@ -20,6 +21,7 @@ public class CheatClient {
     private GuiManager guiManager;
     private MainMenu mainMenu;
     private AccountManager accountManager;
+    private HUDManager hudManager;
     private ConfigManager configManager;
     private boolean initialized = false;
     
@@ -36,6 +38,7 @@ public class CheatClient {
         guiManager = new GuiManager();
         mainMenu = new MainMenu(this);
         accountManager = new AccountManager(this);
+        hudManager = HUDManager.getInstance(this);
         configManager = new ConfigManager();
         
         // Register modules
@@ -74,6 +77,10 @@ public class CheatClient {
     
     public AccountManager getAccountManager() {
         return accountManager;
+    }
+    
+    public HUDManager getHUDManager() {
+        return hudManager;
     }
     
     public ConfigManager getConfigManager() {

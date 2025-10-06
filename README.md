@@ -1,6 +1,6 @@
-# CheatClient - Advanced Minecraft Cheat Client
+# NimbusWare - Advanced Minecraft Cheat Client
 
-A powerful standalone cheat client for Minecraft 1.16.5 with advanced anti-detection and comprehensive features.
+A powerful standalone cheat client for Minecraft 1.16.5 with advanced anti-detection and comprehensive features. NimbusWare provides a complete suite of cheating tools with modern UI and extensive customization options.
 
 ## ⚠️ Disclaimer
 
