@@ -34,6 +34,9 @@ public class ModuleManager {
         register(new AutoEat());
         register(new AutoTool());
         register(new TriggerBot());
+        register(new ClickFriends());
+        register(new NoFriendDamage());
+        register(new ClickPearl());
         
         // Player modules
         register(new AutoFish());

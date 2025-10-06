@@ -42,6 +42,135 @@ public class AntiDetectionManager {
         Logger.info("Disabled Matrix bypass for " + moduleName);
     }
     
+    // Additional bypass methods
+    public static void enableHypixelBypass(String moduleName) {
+        BypassInfo bypass = new BypassInfo();
+        bypass.moduleName = moduleName;
+        bypass.bypassType = BypassType.HYPIXEL;
+        bypass.enabled = true;
+        bypass.lastAction = System.currentTimeMillis();
+        
+        activeBypasses.put(moduleName, bypass);
+        Logger.info("Enabled Hypixel bypass for " + moduleName);
+    }
+    
+    public static void enableNCPBypass(String moduleName) {
+        BypassInfo bypass = new BypassInfo();
+        bypass.moduleName = moduleName;
+        bypass.bypassType = BypassType.NCP;
+        bypass.enabled = true;
+        bypass.lastAction = System.currentTimeMillis();
+        
+        activeBypasses.put(moduleName, bypass);
+        Logger.info("Enabled NCP bypass for " + moduleName);
+    }
+    
+    public static void enableAACBypass(String moduleName) {
+        BypassInfo bypass = new BypassInfo();
+        bypass.moduleName = moduleName;
+        bypass.bypassType = BypassType.AAC;
+        bypass.enabled = true;
+        bypass.lastAction = System.currentTimeMillis();
+        
+        activeBypasses.put(moduleName, bypass);
+        Logger.info("Enabled AAC bypass for " + moduleName);
+    }
+    
+    public static void enableGrimBypass(String moduleName) {
+        BypassInfo bypass = new BypassInfo();
+        bypass.moduleName = moduleName;
+        bypass.bypassType = BypassType.GRIM;
+        bypass.enabled = true;
+        bypass.lastAction = System.currentTimeMillis();
+        
+        activeBypasses.put(moduleName, bypass);
+        Logger.info("Enabled Grim bypass for " + moduleName);
+    }
+    
+    public static void enableVerusBypass(String moduleName) {
+        BypassInfo bypass = new BypassInfo();
+        bypass.moduleName = moduleName;
+        bypass.bypassType = BypassType.VERUS;
+        bypass.enabled = true;
+        bypass.lastAction = System.currentTimeMillis();
+        
+        activeBypasses.put(moduleName, bypass);
+        Logger.info("Enabled Verus bypass for " + moduleName);
+    }
+    
+    public static void enableVulcanBypass(String moduleName) {
+        BypassInfo bypass = new BypassInfo();
+        bypass.moduleName = moduleName;
+        bypass.bypassType = BypassType.VULCAN;
+        bypass.enabled = true;
+        bypass.lastAction = System.currentTimeMillis();
+        
+        activeBypasses.put(moduleName, bypass);
+        Logger.info("Enabled Vulcan bypass for " + moduleName);
+    }
+    
+    public static void enableSpartanBypass(String moduleName) {
+        BypassInfo bypass = new BypassInfo();
+        bypass.moduleName = moduleName;
+        bypass.bypassType = BypassType.SPARTAN;
+        bypass.enabled = true;
+        bypass.lastAction = System.currentTimeMillis();
+        
+        activeBypasses.put(moduleName, bypass);
+        Logger.info("Enabled Spartan bypass for " + moduleName);
+    }
+    
+    public static void enableIntaveBypass(String moduleName) {
+        BypassInfo bypass = new BypassInfo();
+        bypass.moduleName = moduleName;
+        bypass.bypassType = BypassType.INTAVE;
+        bypass.enabled = true;
+        bypass.lastAction = System.currentTimeMillis();
+        
+        activeBypasses.put(moduleName, bypass);
+        Logger.info("Enabled Intave bypass for " + moduleName);
+    }
+    
+    public static void disableHypixelBypass(String moduleName) {
+        activeBypasses.remove(moduleName);
+        Logger.info("Disabled Hypixel bypass for " + moduleName);
+    }
+    
+    public static void disableNCPBypass(String moduleName) {
+        activeBypasses.remove(moduleName);
+        Logger.info("Disabled NCP bypass for " + moduleName);
+    }
+    
+    public static void disableAACBypass(String moduleName) {
+        activeBypasses.remove(moduleName);
+        Logger.info("Disabled AAC bypass for " + moduleName);
+    }
+    
+    public static void disableGrimBypass(String moduleName) {
+        activeBypasses.remove(moduleName);
+        Logger.info("Disabled Grim bypass for " + moduleName);
+    }
+    
+    public static void disableVerusBypass(String moduleName) {
+        activeBypasses.remove(moduleName);
+        Logger.info("Disabled Verus bypass for " + moduleName);
+    }
+    
+    public static void disableVulcanBypass(String moduleName) {
+        activeBypasses.remove(moduleName);
+        Logger.info("Disabled Vulcan bypass for " + moduleName);
+    }
+    
+    public static void disableSpartanBypass(String moduleName) {
+        activeBypasses.remove(moduleName);
+        Logger.info("Disabled Spartan bypass for " + moduleName);
+    }
+    
+    public static void disableIntaveBypass(String moduleName) {
+        activeBypasses.remove(moduleName);
+        Logger.info("Disabled Intave bypass for " + moduleName);
+    }
+    
     public static void applyMovementModification(String moduleName, float value) {
         BypassInfo bypass = activeBypasses.get(moduleName);
         if (bypass == null || !bypass.enabled) return;
@@ -117,6 +246,14 @@ public class AntiDetectionManager {
     public enum BypassType {
         FUNTIME,
         MATRIX,
+        HYPIXEL,
+        NCP,
+        AAC,
+        GRIM,
+        VERUS,
+        VULCAN,
+        SPARTAN,
+        INTAVE,
         CUSTOM
     }
 }
