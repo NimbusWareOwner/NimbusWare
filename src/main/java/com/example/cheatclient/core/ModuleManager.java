@@ -26,6 +26,7 @@ public class ModuleManager {
         register(new Tracers());
         register(new Fullbright());
         register(new NoRender());
+        register(new GPS());
         
         // Combat modules
         register(new KillAura());
@@ -40,6 +41,8 @@ public class ModuleManager {
         register(new AutoFarm());
         register(new AutoBuild());
         register(new AutoCreeperFarm());
+        register(new ChestStealer());
+        register(new ChestStealerAdvanced());
         
         // World modules
         register(new AutoWalk());
