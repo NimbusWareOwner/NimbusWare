@@ -115,6 +115,21 @@ public class Main {
                     Logger.setLevel(Logger.Level.INFO);
                     Logger.info("Info level logging enabled");
                     break;
+                case "metrics":
+                    showMetrics(client);
+                    break;
+                case "health":
+                    showHealthStatus(client);
+                    break;
+                case "stats":
+                    showStatistics(client);
+                    break;
+                case "plugins":
+                    showPlugins(client);
+                    break;
+                case "secure":
+                    showSecureConfig(client);
+                    break;
                 default:
                     if (input.startsWith("toggle ")) {
                         String moduleName = input.substring(7);
@@ -177,6 +192,13 @@ public class Main {
         System.out.println("toggle <name> - Toggle a module");
         System.out.println("autobuy      - Open AutoBuy settings");
         System.out.println("tick         - Simulate game tick");
+        System.out.println("debug        - Enable debug logging");
+        System.out.println("info         - Enable info logging");
+        System.out.println("metrics      - Show performance metrics");
+        System.out.println("health       - Show system health status");
+        System.out.println("stats        - Show usage statistics");
+        System.out.println("plugins      - Show loaded plugins");
+        System.out.println("secure       - Show secure configuration");
         System.out.println("help         - Show this help");
         System.out.println("quit/exit    - Exit the program");
         System.out.println("=============================\n");
@@ -227,5 +249,78 @@ public class Main {
         tickThread.setDaemon(true);
         tickThread.start();
         return tickThread;
+    }
+    
+    private static void showMetrics(NimbusWare client) {
+        System.out.println("\n=== Performance Metrics ===");
+        var metrics = client.getMetricsCollector().getAllMetrics();
+        metrics.forEach((name, value) -> {
+            System.out.println(name + ": " + value);
+        });
+        System.out.println("===========================\n");
+    }
+    
+    private static void showHealthStatus(NimbusWare client) {
+        System.out.println("\n=== System Health Status ===");
+        var healthStatus = client.getHealthChecker().checkAllHealth();
+        System.out.println("Overall Status: " + (healthStatus.isHealthy() ? "HEALTHY" : "UNHEALTHY"));
+        System.out.println("Message: " + healthStatus.getMessage());
+        
+        var healthResults = client.getHealthChecker().getHealthResults();
+        healthResults.forEach((name, status) -> {
+            System.out.println(name + ": " + status);
+        });
+        System.out.println("=============================\n");
+    }
+    
+    private static void showStatistics(NimbusWare client) {
+        System.out.println("\n=== Usage Statistics ===");
+        var report = client.getStatisticsCollector().getStatisticsReport();
+        
+        System.out.println("Counters:");
+        report.getCounters().forEach((name, value) -> {
+            if (value > 0) {
+                System.out.println("  " + name + ": " + value);
+            }
+        });
+        
+        System.out.println("\nGauges:");
+        report.getGauges().forEach((name, value) -> {
+            System.out.println("  " + name + ": " + value);
+        });
+        
+        System.out.println("\nModule Usage:");
+        var moduleStats = client.getStatisticsCollector().getAllModuleUsageStatistics();
+        moduleStats.forEach((name, stats) -> {
+            System.out.println("  " + name + ": " + stats.getActivations() + " activations");
+        });
+        
+        System.out.println("========================\n");
+    }
+    
+    private static void showPlugins(NimbusWare client) {
+        System.out.println("\n=== Loaded Plugins ===");
+        var plugins = client.getPluginManager().getLoadedPlugins();
+        if (plugins.isEmpty()) {
+            System.out.println("No plugins loaded");
+        } else {
+            plugins.forEach((name, plugin) -> {
+                System.out.println(name + " v" + plugin.getVersion() + " by " + plugin.getAuthor());
+                System.out.println("  Description: " + plugin.getDescription());
+                System.out.println("  Status: " + (plugin.isEnabled() ? "Enabled" : "Disabled"));
+                System.out.println();
+            });
+        }
+        System.out.println("=====================\n");
+    }
+    
+    private static void showSecureConfig(NimbusWare client) {
+        System.out.println("\n=== Secure Configuration ===");
+        var encryptionStatus = client.getSecureConfigManager().getEncryptionStatus();
+        System.out.println("Encrypted Keys:");
+        encryptionStatus.forEach((key, isEncrypted) -> {
+            System.out.println("  " + key + ": " + (isEncrypted ? "Encrypted" : "Not Encrypted"));
+        });
+        System.out.println("============================\n");
     }
 }

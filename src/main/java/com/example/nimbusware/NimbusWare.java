@@ -10,7 +10,13 @@ import com.example.nimbusware.core.KeyManager;
 import com.example.nimbusware.core.BindManager;
 import com.example.nimbusware.core.DragDropManager;
 import com.example.nimbusware.config.ConfigManager;
+import com.example.nimbusware.security.SecureConfigManager;
+import com.example.nimbusware.monitoring.MetricsCollector;
+import com.example.nimbusware.monitoring.HealthChecker;
+import com.example.nimbusware.analytics.StatisticsCollector;
+import com.example.nimbusware.plugins.PluginManager;
 import com.example.nimbusware.utils.Logger;
+import com.example.nimbusware.utils.AsyncTaskManager;
 
 /**
  * Main NimbusWare client class that manages all core systems and modules.
@@ -47,6 +53,12 @@ public class NimbusWare {
     private BindManager bindManager;
     private DragDropManager dragDropManager;
     private ConfigManager configManager;
+    private SecureConfigManager secureConfigManager;
+    private MetricsCollector metricsCollector;
+    private HealthChecker healthChecker;
+    private StatisticsCollector statisticsCollector;
+    private PluginManager pluginManager;
+    private AsyncTaskManager asyncTaskManager;
     private boolean initialized = false;
     private long startTime;
     
@@ -79,6 +91,12 @@ public class NimbusWare {
         bindManager = BindManager.getInstance(this);
         dragDropManager = DragDropManager.getInstance(this);
         configManager = new ConfigManager();
+        secureConfigManager = new SecureConfigManager();
+        metricsCollector = MetricsCollector.getInstance();
+        healthChecker = HealthChecker.getInstance();
+        statisticsCollector = StatisticsCollector.getInstance();
+        pluginManager = PluginManager.getInstance(this);
+        asyncTaskManager = AsyncTaskManager.getInstance();
         startTime = System.currentTimeMillis();
         
         // Register modules
@@ -86,9 +104,17 @@ public class NimbusWare {
         
         // Load configuration
         configManager.loadConfig();
+        secureConfigManager.loadConfig();
+        
+        // Load plugins
+        pluginManager.loadAllPlugins();
         
         // Register event listeners
         registerEventListeners();
+        
+        // Record startup metrics
+        metricsCollector.incrementCounter("nimbusware.starts");
+        statisticsCollector.recordPerformance("startup_time", System.currentTimeMillis() - startTime);
         
         initialized = true;
         Logger.info(NAME + " initialized successfully!");
@@ -193,5 +219,100 @@ public class NimbusWare {
      */
     public boolean isInitialized() {
         return initialized;
+    }
+    
+    /**
+     * Get the secure configuration manager instance.
+     * @return SecureConfigManager for handling encrypted configuration
+     */
+    public SecureConfigManager getSecureConfigManager() {
+        return secureConfigManager;
+    }
+    
+    /**
+     * Get the metrics collector instance.
+     * @return MetricsCollector for performance monitoring
+     */
+    public MetricsCollector getMetricsCollector() {
+        return metricsCollector;
+    }
+    
+    /**
+     * Get the health checker instance.
+     * @return HealthChecker for system health monitoring
+     */
+    public HealthChecker getHealthChecker() {
+        return healthChecker;
+    }
+    
+    /**
+     * Get the statistics collector instance.
+     * @return StatisticsCollector for usage analytics
+     */
+    public StatisticsCollector getStatisticsCollector() {
+        return statisticsCollector;
+    }
+    
+    /**
+     * Get the plugin manager instance.
+     * @return PluginManager for plugin management
+     */
+    public PluginManager getPluginManager() {
+        return pluginManager;
+    }
+    
+    /**
+     * Get the async task manager instance.
+     * @return AsyncTaskManager for asynchronous operations
+     */
+    public AsyncTaskManager getAsyncTaskManager() {
+        return asyncTaskManager;
+    }
+    
+    /**
+     * Shutdown all systems gracefully
+     */
+    public void shutdown() {
+        Logger.info("Shutting down NimbusWare...");
+        
+        try {
+            // Shutdown plugins first
+            if (pluginManager != null) {
+                pluginManager.shutdown();
+            }
+            
+            // Shutdown monitoring systems
+            if (metricsCollector != null) {
+                metricsCollector.shutdown();
+            }
+            
+            if (healthChecker != null) {
+                healthChecker.shutdown();
+            }
+            
+            if (statisticsCollector != null) {
+                statisticsCollector.shutdown();
+            }
+            
+            if (asyncTaskManager != null) {
+                asyncTaskManager.shutdown();
+            }
+            
+            // Save configurations
+            if (configManager != null) {
+                configManager.saveConfig();
+            }
+            
+            if (secureConfigManager != null) {
+                secureConfigManager.saveConfig();
+            }
+            
+            // Shutdown logger last
+            Logger.shutdown();
+            
+            Logger.info("NimbusWare shutdown complete");
+        } catch (Exception e) {
+            Logger.error("Error during shutdown", e);
+        }
     }
 }
