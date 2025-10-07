@@ -3,9 +3,12 @@ package com.example.nimbusware.gui;
 import com.example.nimbusware.NimbusWare;
 import com.example.nimbusware.core.Module;
 import com.example.nimbusware.core.ModuleManager;
+import com.example.nimbusware.profiles.ProfileManager;
+import com.example.nimbusware.macros.Macro;
 import com.example.nimbusware.utils.Logger;
 
 import java.util.Scanner;
+import java.util.Map;
 
 public class MainMenu {
     private boolean isOpen = false;
@@ -62,14 +65,22 @@ public class MainMenu {
                     showSettingsMenu();
                     break;
                 case "6":
+                case "profiles":
+                    showProfilesMenu();
+                    break;
+                case "7":
+                case "macros":
+                    showMacrosMenu();
+                    break;
+                case "8":
                 case "stats":
                     showStatisticsMenu();
                     break;
-                case "7":
+                case "9":
                 case "help":
                     showHelpMenu();
                     break;
-                case "8":
+                case "10":
                 case "quit":
                 case "exit":
                     close();
@@ -92,7 +103,9 @@ public class MainMenu {
             System.out.println("3. Module Settings");
             System.out.println("4. Enable All Modules");
             System.out.println("5. Disable All Modules");
-            System.out.println("6. Back to Main Menu");
+            System.out.println("6. Module Statistics");
+            System.out.println("7. Reset Module Stats");
+            System.out.println("8. Back to Main Menu");
             
             System.out.print("Modules> ");
             String input = scanner.nextLine().trim().toLowerCase();
@@ -114,6 +127,12 @@ public class MainMenu {
                     disableAllModules();
                     break;
                 case "6":
+                    showModuleStatistics();
+                    break;
+                case "7":
+                    resetModuleStats();
+                    break;
+                case "8":
                     return;
                 default:
                     System.out.println("Invalid option. Please try again.");
@@ -333,16 +352,60 @@ public class MainMenu {
         
         Module module = client.getModuleManager().getModule(moduleName);
         if (module != null) {
-            System.out.println("Settings for " + moduleName + ":");
-            System.out.println("Description: " + module.getDescription());
-            System.out.println("Category: " + module.getCategory().getDisplayName());
-            System.out.println("Enabled: " + (module.isEnabled() ? "Yes" : "No"));
-            System.out.println("Keybind: " + module.getKeyBind());
+            ModuleSettingsGUI settingsGUI = new ModuleSettingsGUI();
+            settingsGUI.open(module);
         } else {
             System.out.println("Module not found: " + moduleName);
+            pause();
+        }
+    }
+    
+    private void showModuleStatistics() {
+        clearScreen();
+        printHeader();
+        System.out.println("📊 MODULE STATISTICS");
+        System.out.println("====================");
+        
+        for (Module module : client.getModuleManager().getModules()) {
+            Map<String, Object> stats = module.getStatistics();
+            System.out.println("\n" + module.getName() + ":");
+            System.out.println("  Status: " + (module.isEnabled() ? "Enabled" : "Disabled"));
+            System.out.println("  Total Uptime: " + formatUptime(module.getTotalUptime()));
+            System.out.println("  Current Uptime: " + formatUptime(module.getCurrentUptime()));
+            System.out.println("  Uptime %: " + String.format("%.1f%%", module.getUptimePercentage() * 100));
         }
         
         pause();
+    }
+    
+    private void resetModuleStats() {
+        System.out.print("Reset statistics for all modules? (y/N): ");
+        String confirm = scanner.nextLine().trim().toLowerCase();
+        
+        if (confirm.equals("y") || confirm.equals("yes")) {
+            for (Module module : client.getModuleManager().getModules()) {
+                module.resetStatistics();
+            }
+            System.out.println("Module statistics reset");
+        } else {
+            System.out.println("Reset cancelled");
+        }
+        
+        pause();
+    }
+    
+    private String formatUptime(long uptimeMs) {
+        long seconds = uptimeMs / 1000;
+        long minutes = seconds / 60;
+        long hours = minutes / 60;
+        
+        if (hours > 0) {
+            return String.format("%dh %dm %ds", hours, minutes % 60, seconds % 60);
+        } else if (minutes > 0) {
+            return String.format("%dm %ds", minutes, seconds % 60);
+        } else {
+            return String.format("%ds", seconds);
+        }
     }
     
     private void enableAllModules() {
@@ -548,9 +611,11 @@ public class MainMenu {
         System.out.println("3. Account Manager      👤");
         System.out.println("4. Money Making         💰");
         System.out.println("5. Settings             ⚙️");
-        System.out.println("6. Statistics           📊");
-        System.out.println("7. Help & Commands      ❓");
-        System.out.println("8. Quit                 🚪");
+        System.out.println("6. Profiles             📁");
+        System.out.println("7. Macros               🎬");
+        System.out.println("8. Statistics           📊");
+        System.out.println("9. Help & Commands      ❓");
+        System.out.println("10. Quit                🚪");
         System.out.println();
     }
     
@@ -562,5 +627,214 @@ public class MainMenu {
     private void pause() {
         System.out.println("\nPress Enter to continue...");
         scanner.nextLine();
+    }
+    
+    // Profile management methods
+    private void showProfilesMenu() {
+        while (isOpen) {
+            clearScreen();
+            printHeader();
+            System.out.println("📁 PROFILE MANAGEMENT");
+            System.out.println("=====================");
+            System.out.println("1. List Profiles");
+            System.out.println("2. Create Profile");
+            System.out.println("3. Load Profile");
+            System.out.println("4. Save Current to Profile");
+            System.out.println("5. Delete Profile");
+            System.out.println("6. Back to Main Menu");
+            
+            System.out.print("Profiles> ");
+            String input = scanner.nextLine().trim().toLowerCase();
+            
+            switch (input) {
+                case "1":
+                    listProfiles();
+                    break;
+                case "2":
+                    createProfile();
+                    break;
+                case "3":
+                    loadProfile();
+                    break;
+                case "4":
+                    saveToProfile();
+                    break;
+                case "5":
+                    deleteProfile();
+                    break;
+                case "6":
+                    return;
+                default:
+                    System.out.println("Invalid option. Please try again.");
+                    pause();
+            }
+        }
+    }
+    
+    private void listProfiles() {
+        clearScreen();
+        printHeader();
+        System.out.println("📁 AVAILABLE PROFILES");
+        System.out.println("=====================");
+        
+        ProfileManager profileManager = ProfileManager.getInstance();
+        Map<String, com.example.nimbusware.profiles.CheatProfile> profiles = profileManager.getAllProfiles();
+        
+        if (profiles.isEmpty()) {
+            System.out.println("No profiles found");
+        } else {
+            for (com.example.nimbusware.profiles.CheatProfile profile : profiles.values()) {
+                System.out.println("\n" + profile.getName() + ":");
+                System.out.println("  Description: " + profile.getDescription());
+                System.out.println("  Modules: " + profile.getModuleStates().size());
+                System.out.println("  Created: " + new java.util.Date(profile.getCreationTime()));
+            }
+        }
+        
+        pause();
+    }
+    
+    private void createProfile() {
+        System.out.print("Enter profile name: ");
+        String name = scanner.nextLine().trim();
+        
+        if (name.isEmpty()) {
+            System.out.println("Profile name cannot be empty");
+            pause();
+            return;
+        }
+        
+        System.out.print("Enter profile description: ");
+        String description = scanner.nextLine().trim();
+        
+        try {
+            ProfileManager profileManager = ProfileManager.getInstance();
+            com.example.nimbusware.profiles.CheatProfile profile = profileManager.createProfile(name, description);
+            System.out.println("Profile created: " + name);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        
+        pause();
+    }
+    
+    private void loadProfile() {
+        System.out.print("Enter profile name to load: ");
+        String name = scanner.nextLine().trim();
+        
+        ProfileManager profileManager = ProfileManager.getInstance();
+        if (profileManager.loadProfile(name)) {
+            System.out.println("Profile loaded: " + name);
+        } else {
+            System.out.println("Failed to load profile: " + name);
+        }
+        
+        pause();
+    }
+    
+    private void saveToProfile() {
+        System.out.print("Enter profile name to save to: ");
+        String name = scanner.nextLine().trim();
+        
+        ProfileManager profileManager = ProfileManager.getInstance();
+        if (profileManager.saveToProfile(name)) {
+            System.out.println("Current state saved to profile: " + name);
+        } else {
+            System.out.println("Failed to save to profile: " + name);
+        }
+        
+        pause();
+    }
+    
+    private void deleteProfile() {
+        System.out.print("Enter profile name to delete: ");
+        String name = scanner.nextLine().trim();
+        
+        System.out.print("Are you sure? (y/N): ");
+        String confirm = scanner.nextLine().trim().toLowerCase();
+        
+        if (confirm.equals("y") || confirm.equals("yes")) {
+            ProfileManager profileManager = ProfileManager.getInstance();
+            if (profileManager.deleteProfile(name)) {
+                System.out.println("Profile deleted: " + name);
+            } else {
+                System.out.println("Failed to delete profile: " + name);
+            }
+        } else {
+            System.out.println("Deletion cancelled");
+        }
+        
+        pause();
+    }
+    
+    // Macro management methods
+    private void showMacrosMenu() {
+        while (isOpen) {
+            clearScreen();
+            printHeader();
+            System.out.println("🎬 MACRO MANAGEMENT");
+            System.out.println("==================");
+            System.out.println("1. List Macros");
+            System.out.println("2. Create Macro");
+            System.out.println("3. Run Macro");
+            System.out.println("4. Stop Macro");
+            System.out.println("5. Delete Macro");
+            System.out.println("6. Back to Main Menu");
+            
+            System.out.print("Macros> ");
+            String input = scanner.nextLine().trim().toLowerCase();
+            
+            switch (input) {
+                case "1":
+                    listMacros();
+                    break;
+                case "2":
+                    createMacro();
+                    break;
+                case "3":
+                    runMacro();
+                    break;
+                case "4":
+                    stopMacro();
+                    break;
+                case "5":
+                    deleteMacro();
+                    break;
+                case "6":
+                    return;
+                default:
+                    System.out.println("Invalid option. Please try again.");
+                    pause();
+            }
+        }
+    }
+    
+    private void listMacros() {
+        clearScreen();
+        printHeader();
+        System.out.println("🎬 AVAILABLE MACROS");
+        System.out.println("===================");
+        System.out.println("No macros implemented yet");
+        pause();
+    }
+    
+    private void createMacro() {
+        System.out.println("Macro creation not implemented yet");
+        pause();
+    }
+    
+    private void runMacro() {
+        System.out.println("Macro execution not implemented yet");
+        pause();
+    }
+    
+    private void stopMacro() {
+        System.out.println("Macro stopping not implemented yet");
+        pause();
+    }
+    
+    private void deleteMacro() {
+        System.out.println("Macro deletion not implemented yet");
+        pause();
     }
 }
