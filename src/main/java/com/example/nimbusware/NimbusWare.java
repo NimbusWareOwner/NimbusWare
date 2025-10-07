@@ -253,6 +253,10 @@ public class NimbusWare {
         return statisticsCollector;
     }
     
+    public com.example.nimbusware.security.EncryptionManager getEncryptionManager() {
+        return secureConfigManager.getEncryptionManager();
+    }
+    
     /**
      * Get the plugin manager instance.
      * @return PluginManager for plugin management

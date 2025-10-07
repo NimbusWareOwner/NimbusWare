@@ -8,19 +8,49 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        Logger.info("Starting NimbusWare...");
+        Logger.info("🚀 Starting NimbusWare...");
         
         try {
-            // Initialize the cheat client
-            NimbusWare client = new NimbusWare();
-            client.initialize();
+            // Initialize all systems
+            com.example.nimbusware.init.InitializationManager initManager = com.example.nimbusware.init.InitializationManager.getInstance();
+            if (!initManager.initializeAll()) {
+                Logger.error("❌ Failed to initialize systems");
+                return;
+            }
+            
+            // Get the client instance
+            NimbusWare client = NimbusWare.INSTANCE;
+            
+            // Run pre-release checks
+            runPreReleaseChecks();
             
             // Start the main loop
             startMainLoop(client);
             
         } catch (Exception e) {
-            Logger.error("Failed to start NimbusWare: " + e.getMessage());
+            Logger.error("❌ Failed to start NimbusWare: " + e.getMessage());
             e.printStackTrace();
+        }
+    }
+    
+    private static void runPreReleaseChecks() {
+        Logger.info("🔍 Running pre-release checks...");
+        
+        try {
+            com.example.nimbusware.release.ReleaseChecker releaseChecker = com.example.nimbusware.release.ReleaseChecker.getInstance();
+            boolean ready = releaseChecker.checkReleaseReadiness();
+            
+            if (ready) {
+                Logger.info("✅ All systems ready for release!");
+            } else {
+                Logger.warn("⚠️ Some issues found, but continuing...");
+                java.util.List<String> issues = releaseChecker.getIssues();
+                for (String issue : issues) {
+                    Logger.warn("  - " + issue);
+                }
+            }
+        } catch (Exception e) {
+            Logger.error("Pre-release check failed", e);
         }
     }
     

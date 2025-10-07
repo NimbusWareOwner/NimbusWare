@@ -246,8 +246,8 @@ public class Macro {
         
         @Override
         public void execute() throws Exception {
-            // Simulate key press
-            System.out.println("Macro: Pressing key " + key + " for " + duration + "ms");
+                    // Simulate key press
+                    com.example.nimbusware.utils.Logger.debug("Macro: Pressing key " + key + " for " + duration + "ms");
         }
         
         @Override
@@ -270,8 +270,8 @@ public class Macro {
         
         @Override
         public void execute() throws Exception {
-            // Simulate mouse click
-            System.out.println("Macro: Clicking mouse button " + button + " for " + duration + "ms");
+                    // Simulate mouse click
+                    com.example.nimbusware.utils.Logger.debug("Macro: Clicking mouse button " + button + " for " + duration + "ms");
         }
         
         @Override
@@ -297,7 +297,7 @@ public class Macro {
                 com.example.nimbusware.core.Module module = com.example.nimbusware.NimbusWare.INSTANCE.getModuleManager().getModule(moduleName);
                 if (module != null) {
                     module.toggle();
-                    System.out.println("Macro: Toggled module " + moduleName);
+                    com.example.nimbusware.utils.Logger.debug("Macro: Toggled module " + moduleName);
                 }
             }
         }
@@ -320,8 +320,8 @@ public class Macro {
         
         @Override
         public void execute() throws Exception {
-            // Execute command
-            System.out.println("Macro: Executing command: " + command);
+                    // Execute command
+                    com.example.nimbusware.utils.Logger.debug("Macro: Executing command: " + command);
         }
         
         @Override

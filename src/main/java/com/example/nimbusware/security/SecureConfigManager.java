@@ -256,6 +256,14 @@ public class SecureConfigManager extends ConfigManager {
     }
     
     /**
+     * Get the encryption manager instance
+     * @return EncryptionManager instance
+     */
+    public EncryptionManager getEncryptionManager() {
+        return encryptionManager;
+    }
+    
+    /**
      * Re-encrypt all secure values with a new key
      * @param newKeyName New key name to use
      */
