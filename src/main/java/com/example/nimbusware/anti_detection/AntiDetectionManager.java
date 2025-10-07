@@ -1,219 +1,163 @@
 package com.example.nimbusware.anti_detection;
 
+import com.example.nimbusware.anti_detection.strategy.FuntimeBypassStrategy;
+import com.example.nimbusware.anti_detection.strategy.HypixelBypassStrategy;
+import com.example.nimbusware.anti_detection.strategy.MatrixBypassStrategy;
 import com.example.nimbusware.utils.Logger;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * Enhanced Anti-Detection Manager using Strategy pattern
+ * Provides centralized management of various server bypass strategies
+ */
 public class AntiDetectionManager {
-    private static final Map<String, BypassInfo> activeBypasses = new HashMap<>();
+    private static final Map<String, BypassInfo> activeBypasses = new ConcurrentHashMap<>();
     private static final Random random = new Random();
     
-    public static void enableFuntimeBypass(String moduleName) {
+    // Strategy instances
+    private static final FuntimeBypassStrategy funtimeStrategy = new FuntimeBypassStrategy();
+    private static final MatrixBypassStrategy matrixStrategy = new MatrixBypassStrategy();
+    private static final HypixelBypassStrategy hypixelStrategy = new HypixelBypassStrategy();
+    
+    // Strategy registry
+    private static final Map<BypassType, BypassStrategy> strategies = new HashMap<>();
+    
+    static {
+        strategies.put(BypassType.FUNTIME, funtimeStrategy);
+        strategies.put(BypassType.MATRIX, matrixStrategy);
+        strategies.put(BypassType.HYPIXEL, hypixelStrategy);
+    }
+    
+    /**
+     * Enable a specific bypass strategy for a module
+     * @param moduleName Name of the module
+     * @param bypassType Type of bypass to enable
+     */
+    public static void enableBypass(String moduleName, BypassType bypassType) {
+        if (moduleName == null || moduleName.trim().isEmpty()) {
+            Logger.warn("Cannot enable bypass: module name is null or empty");
+            return;
+        }
+        
+        BypassStrategy strategy = strategies.get(bypassType);
+        if (strategy == null) {
+            Logger.warn("Unknown bypass type: " + bypassType);
+            return;
+        }
+        
         BypassInfo bypass = new BypassInfo();
         bypass.moduleName = moduleName;
-        bypass.bypassType = BypassType.FUNTIME;
+        bypass.bypassType = bypassType;
+        bypass.strategy = strategy;
         bypass.enabled = true;
         bypass.lastAction = System.currentTimeMillis();
         
         activeBypasses.put(moduleName, bypass);
-        Logger.info("Enabled Funtime bypass for " + moduleName);
-    }
-    
-    public static void enableMatrixBypass(String moduleName) {
-        BypassInfo bypass = new BypassInfo();
-        bypass.moduleName = moduleName;
-        bypass.bypassType = BypassType.MATRIX;
-        bypass.enabled = true;
-        bypass.lastAction = System.currentTimeMillis();
+        strategy.setActive(true);
         
-        activeBypasses.put(moduleName, bypass);
-        Logger.info("Enabled Matrix bypass for " + moduleName);
+        Logger.info("Enabled " + bypassType + " bypass for " + moduleName);
     }
     
-    public static void disableFuntimeBypass(String moduleName) {
-        activeBypasses.remove(moduleName);
-        Logger.info("Disabled Funtime bypass for " + moduleName);
-    }
-    
-    public static void disableMatrixBypass(String moduleName) {
-        activeBypasses.remove(moduleName);
-        Logger.info("Disabled Matrix bypass for " + moduleName);
-    }
-    
-    // Additional bypass methods
-    public static void enableHypixelBypass(String moduleName) {
-        BypassInfo bypass = new BypassInfo();
-        bypass.moduleName = moduleName;
-        bypass.bypassType = BypassType.HYPIXEL;
-        bypass.enabled = true;
-        bypass.lastAction = System.currentTimeMillis();
+    /**
+     * Disable bypass for a specific module
+     * @param moduleName Name of the module
+     */
+    public static void disableBypass(String moduleName) {
+        if (moduleName == null || moduleName.trim().isEmpty()) {
+            Logger.warn("Cannot disable bypass: module name is null or empty");
+            return;
+        }
         
-        activeBypasses.put(moduleName, bypass);
-        Logger.info("Enabled Hypixel bypass for " + moduleName);
+        BypassInfo bypass = activeBypasses.remove(moduleName);
+        if (bypass != null && bypass.strategy != null) {
+            bypass.strategy.setActive(false);
+            Logger.info("Disabled " + bypass.bypassType + " bypass for " + moduleName);
+        }
     }
     
-    public static void enableNCPBypass(String moduleName) {
-        BypassInfo bypass = new BypassInfo();
-        bypass.moduleName = moduleName;
-        bypass.bypassType = BypassType.NCP;
-        bypass.enabled = true;
-        bypass.lastAction = System.currentTimeMillis();
-        
-        activeBypasses.put(moduleName, bypass);
-        Logger.info("Enabled NCP bypass for " + moduleName);
-    }
-    
-    public static void enableAACBypass(String moduleName) {
-        BypassInfo bypass = new BypassInfo();
-        bypass.moduleName = moduleName;
-        bypass.bypassType = BypassType.AAC;
-        bypass.enabled = true;
-        bypass.lastAction = System.currentTimeMillis();
-        
-        activeBypasses.put(moduleName, bypass);
-        Logger.info("Enabled AAC bypass for " + moduleName);
-    }
-    
-    public static void enableGrimBypass(String moduleName) {
-        BypassInfo bypass = new BypassInfo();
-        bypass.moduleName = moduleName;
-        bypass.bypassType = BypassType.GRIM;
-        bypass.enabled = true;
-        bypass.lastAction = System.currentTimeMillis();
-        
-        activeBypasses.put(moduleName, bypass);
-        Logger.info("Enabled Grim bypass for " + moduleName);
-    }
-    
-    public static void enableVerusBypass(String moduleName) {
-        BypassInfo bypass = new BypassInfo();
-        bypass.moduleName = moduleName;
-        bypass.bypassType = BypassType.VERUS;
-        bypass.enabled = true;
-        bypass.lastAction = System.currentTimeMillis();
-        
-        activeBypasses.put(moduleName, bypass);
-        Logger.info("Enabled Verus bypass for " + moduleName);
-    }
-    
-    public static void enableVulcanBypass(String moduleName) {
-        BypassInfo bypass = new BypassInfo();
-        bypass.moduleName = moduleName;
-        bypass.bypassType = BypassType.VULCAN;
-        bypass.enabled = true;
-        bypass.lastAction = System.currentTimeMillis();
-        
-        activeBypasses.put(moduleName, bypass);
-        Logger.info("Enabled Vulcan bypass for " + moduleName);
-    }
-    
-    public static void enableSpartanBypass(String moduleName) {
-        BypassInfo bypass = new BypassInfo();
-        bypass.moduleName = moduleName;
-        bypass.bypassType = BypassType.SPARTAN;
-        bypass.enabled = true;
-        bypass.lastAction = System.currentTimeMillis();
-        
-        activeBypasses.put(moduleName, bypass);
-        Logger.info("Enabled Spartan bypass for " + moduleName);
-    }
-    
-    public static void enableIntaveBypass(String moduleName) {
-        BypassInfo bypass = new BypassInfo();
-        bypass.moduleName = moduleName;
-        bypass.bypassType = BypassType.INTAVE;
-        bypass.enabled = true;
-        bypass.lastAction = System.currentTimeMillis();
-        
-        activeBypasses.put(moduleName, bypass);
-        Logger.info("Enabled Intave bypass for " + moduleName);
-    }
-    
-    public static void disableHypixelBypass(String moduleName) {
-        activeBypasses.remove(moduleName);
-        Logger.info("Disabled Hypixel bypass for " + moduleName);
-    }
-    
-    public static void disableNCPBypass(String moduleName) {
-        activeBypasses.remove(moduleName);
-        Logger.info("Disabled NCP bypass for " + moduleName);
-    }
-    
-    public static void disableAACBypass(String moduleName) {
-        activeBypasses.remove(moduleName);
-        Logger.info("Disabled AAC bypass for " + moduleName);
-    }
-    
-    public static void disableGrimBypass(String moduleName) {
-        activeBypasses.remove(moduleName);
-        Logger.info("Disabled Grim bypass for " + moduleName);
-    }
-    
-    public static void disableVerusBypass(String moduleName) {
-        activeBypasses.remove(moduleName);
-        Logger.info("Disabled Verus bypass for " + moduleName);
-    }
-    
-    public static void disableVulcanBypass(String moduleName) {
-        activeBypasses.remove(moduleName);
-        Logger.info("Disabled Vulcan bypass for " + moduleName);
-    }
-    
-    public static void disableSpartanBypass(String moduleName) {
-        activeBypasses.remove(moduleName);
-        Logger.info("Disabled Spartan bypass for " + moduleName);
-    }
-    
-    public static void disableIntaveBypass(String moduleName) {
-        activeBypasses.remove(moduleName);
-        Logger.info("Disabled Intave bypass for " + moduleName);
-    }
-    
+    /**
+     * Apply movement modification using the appropriate strategy
+     * @param moduleName Name of the module
+     * @param value Original movement value
+     */
     public static void applyMovementModification(String moduleName, float value) {
         BypassInfo bypass = activeBypasses.get(moduleName);
-        if (bypass == null || !bypass.enabled) return;
-        
-        // Apply randomization based on bypass type
-        float modifiedValue = value;
-        
-        switch (bypass.bypassType) {
-            case FUNTIME:
-                // Funtime bypass: add small random variations
-                modifiedValue += (random.nextFloat() - 0.5f) * 0.1f;
-                break;
-            case MATRIX:
-                // Matrix bypass: more aggressive randomization
-                modifiedValue += (random.nextFloat() - 0.5f) * 0.2f;
-                break;
+        if (bypass == null || !bypass.enabled || bypass.strategy == null) {
+            return;
         }
         
-        // Apply the modification
-        applyMovementValue(moduleName, modifiedValue);
-        bypass.lastAction = System.currentTimeMillis();
+        try {
+            float modifiedValue = bypass.strategy.applyMovementModification(value, random);
+            applyMovementValue(moduleName, modifiedValue);
+            bypass.lastAction = System.currentTimeMillis();
+        } catch (Exception e) {
+            Logger.error("Error applying movement modification for " + moduleName, e);
+        }
     }
     
+    /**
+     * Apply combat modification using the appropriate strategy
+     * @param moduleName Name of the module
+     * @param value Original combat value
+     */
     public static void applyCombatModification(String moduleName, float value) {
         BypassInfo bypass = activeBypasses.get(moduleName);
-        if (bypass == null || !bypass.enabled) return;
-        
-        // Apply combat-specific anti-detection
-        float modifiedValue = value;
-        
-        switch (bypass.bypassType) {
-            case FUNTIME:
-                // Add timing variations for Funtime
-                modifiedValue += random.nextFloat() * 0.05f;
-                break;
-            case MATRIX:
-                // Matrix-specific combat bypass
-                modifiedValue += (random.nextFloat() - 0.5f) * 0.1f;
-                break;
+        if (bypass == null || !bypass.enabled || bypass.strategy == null) {
+            return;
         }
         
-        applyCombatValue(moduleName, modifiedValue);
-        bypass.lastAction = System.currentTimeMillis();
+        try {
+            float modifiedValue = bypass.strategy.applyCombatModification(value, random);
+            applyCombatValue(moduleName, modifiedValue);
+            bypass.lastAction = System.currentTimeMillis();
+        } catch (Exception e) {
+            Logger.error("Error applying combat modification for " + moduleName, e);
+        }
+    }
+    
+    /**
+     * Check if a bypass is active for a module
+     * @param moduleName Name of the module
+     * @return true if bypass is active, false otherwise
+     */
+    public static boolean isBypassActive(String moduleName) {
+        BypassInfo bypass = activeBypasses.get(moduleName);
+        return bypass != null && bypass.enabled;
+    }
+    
+    /**
+     * Get the bypass type for a module
+     * @param moduleName Name of the module
+     * @return BypassType or null if not found
+     */
+    public static BypassType getBypassType(String moduleName) {
+        BypassInfo bypass = activeBypasses.get(moduleName);
+        return bypass != null ? bypass.bypassType : null;
+    }
+    
+    /**
+     * Get all active bypasses
+     * @return Map of module names to bypass info
+     */
+    public static Map<String, BypassInfo> getActiveBypasses() {
+        return new HashMap<>(activeBypasses);
+    }
+    
+    /**
+     * Clear all bypasses
+     */
+    public static void clearAllBypasses() {
+        for (BypassInfo bypass : activeBypasses.values()) {
+            if (bypass.strategy != null) {
+                bypass.strategy.setActive(false);
+            }
+        }
+        activeBypasses.clear();
+        Logger.info("Cleared all bypasses");
     }
     
     private static void applyMovementValue(String moduleName, float value) {
@@ -226,34 +170,73 @@ public class AntiDetectionManager {
         Logger.debug("Applied combat modification for " + moduleName + ": " + value);
     }
     
-    public static boolean isBypassActive(String moduleName) {
-        BypassInfo bypass = activeBypasses.get(moduleName);
-        return bypass != null && bypass.enabled;
+    // Convenience methods for backward compatibility
+    public static void enableFuntimeBypass(String moduleName) {
+        enableBypass(moduleName, BypassType.FUNTIME);
     }
     
-    public static BypassType getBypassType(String moduleName) {
-        BypassInfo bypass = activeBypasses.get(moduleName);
-        return bypass != null ? bypass.bypassType : null;
+    public static void enableMatrixBypass(String moduleName) {
+        enableBypass(moduleName, BypassType.MATRIX);
     }
     
-    private static class BypassInfo {
-        String moduleName;
-        BypassType bypassType;
-        boolean enabled;
-        long lastAction;
+    public static void enableHypixelBypass(String moduleName) {
+        enableBypass(moduleName, BypassType.HYPIXEL);
     }
     
+    public static void disableFuntimeBypass(String moduleName) {
+        disableBypass(moduleName);
+    }
+    
+    public static void disableMatrixBypass(String moduleName) {
+        disableBypass(moduleName);
+    }
+    
+    public static void disableHypixelBypass(String moduleName) {
+        disableBypass(moduleName);
+    }
+    
+    /**
+     * Information about an active bypass
+     */
+    public static class BypassInfo {
+        private String moduleName;
+        private BypassType bypassType;
+        private BypassStrategy strategy;
+        private boolean enabled;
+        private long lastAction;
+        
+        // Getters
+        public String getModuleName() { return moduleName; }
+        public BypassType getBypassType() { return bypassType; }
+        public BypassStrategy getStrategy() { return strategy; }
+        public boolean isEnabled() { return enabled; }
+        public long getLastAction() { return lastAction; }
+    }
+    
+    /**
+     * Available bypass types
+     */
     public enum BypassType {
-        FUNTIME,
-        MATRIX,
-        HYPIXEL,
-        NCP,
-        AAC,
-        GRIM,
-        VERUS,
-        VULCAN,
-        SPARTAN,
-        INTAVE,
-        CUSTOM
+        FUNTIME("Funtime"),
+        MATRIX("Matrix"),
+        HYPIXEL("Hypixel"),
+        NCP("NCP"),
+        AAC("AAC"),
+        GRIM("Grim"),
+        VERUS("Verus"),
+        VULCAN("Vulcan"),
+        SPARTAN("Spartan"),
+        INTAVE("Intave"),
+        CUSTOM("Custom");
+        
+        private final String displayName;
+        
+        BypassType(String displayName) {
+            this.displayName = displayName;
+        }
+        
+        public String getDisplayName() {
+            return displayName;
+        }
     }
 }

@@ -29,25 +29,51 @@ public class Main {
         Logger.info("Right Shift - Open main menu");
         Logger.info("Type 'menu' for main menu, 'h' for key help, 'quit' to exit");
         
-        Scanner scanner = new Scanner(System.in);
+        Scanner scanner = null;
+        KeySimulator keySimulator = null;
+        Thread tickThread = null;
         
-        // Start key simulator
-        KeySimulator keySimulator = new KeySimulator(client);
-        keySimulator.start();
-        
-        // Start background tick simulation
-        startTickSimulation(client);
-        
-        while (true) {
-            System.out.print("NimbusWare> ");
-            String input = "";
-            try {
-                input = scanner.nextLine().trim().toLowerCase();
-            } catch (Exception e) {
-                Logger.error("Input error: " + e.getMessage());
-                break;
-            }
+        try {
+            scanner = new Scanner(System.in);
             
+            // Start key simulator
+            keySimulator = new KeySimulator(client);
+            keySimulator.start();
+            
+            // Start background tick simulation
+            tickThread = startTickSimulation(client);
+            
+            while (true) {
+                try {
+                    System.out.print("NimbusWare> ");
+                    String input = "";
+                    
+                    try {
+                        input = scanner.nextLine().trim().toLowerCase();
+                    } catch (Exception e) {
+                        Logger.error("Input error: " + e.getMessage(), e);
+                        break;
+                    }
+                    
+                    if (!processCommand(input, client)) {
+                        break;
+                    }
+                    
+                } catch (Exception e) {
+                    Logger.error("Error processing command", e);
+                    System.out.println("An error occurred. Please try again.");
+                }
+            }
+        } catch (Exception e) {
+            Logger.error("Critical error in main loop", e);
+        } finally {
+            // Cleanup resources
+            cleanupResources(scanner, keySimulator, tickThread);
+        }
+    }
+    
+    private static boolean processCommand(String input, NimbusWare client) {
+        try {
             switch (input) {
                 case "gui":
                     client.getGuiManager().toggleGui();
@@ -72,8 +98,7 @@ public class Main {
                 case "quit":
                 case "exit":
                     Logger.info("Shutting down NimbusWare...");
-                    System.exit(0);
-                    break;
+                    return false; // Exit the loop
                 case "list":
                     listModules(client);
                     break;
@@ -82,16 +107,57 @@ public class Main {
                     EventManager.TickEvent tickEvent = new EventManager.TickEvent();
                     client.getEventManager().post(tickEvent);
                     break;
+                case "debug":
+                    Logger.setLevel(Logger.Level.DEBUG);
+                    Logger.info("Debug mode enabled");
+                    break;
+                case "info":
+                    Logger.setLevel(Logger.Level.INFO);
+                    Logger.info("Info level logging enabled");
+                    break;
                 default:
                     if (input.startsWith("toggle ")) {
                         String moduleName = input.substring(7);
                         toggleModule(client, moduleName);
                     } else if (!input.isEmpty()) {
-                        System.out.println("Unknown command: " + input);
+                        System.out.println("Unknown command: " + input + ". Type 'help' for available commands.");
                     }
                     break;
             }
+        } catch (Exception e) {
+            Logger.error("Error processing command: " + input, e);
+            System.out.println("Command failed: " + e.getMessage());
         }
+        return true; // Continue the loop
+    }
+    
+    private static void cleanupResources(Scanner scanner, KeySimulator keySimulator, Thread tickThread) {
+        try {
+            if (scanner != null) {
+                scanner.close();
+            }
+        } catch (Exception e) {
+            Logger.warn("Error closing scanner", e);
+        }
+        
+        try {
+            if (keySimulator != null) {
+                keySimulator.stop();
+            }
+        } catch (Exception e) {
+            Logger.warn("Error stopping key simulator", e);
+        }
+        
+        try {
+            if (tickThread != null) {
+                tickThread.interrupt();
+            }
+        } catch (Exception e) {
+            Logger.warn("Error stopping tick thread", e);
+        }
+        
+        // Shutdown logger
+        Logger.shutdown();
     }
     
     private static void openAutoBuySettings(NimbusWare client) {
@@ -134,9 +200,10 @@ public class Main {
         }
     }
     
-    private static void startTickSimulation(NimbusWare client) {
+    private static Thread startTickSimulation(NimbusWare client) {
         Thread tickThread = new Thread(() -> {
-            while (true) {
+            Logger.debug("Tick simulation thread started");
+            while (!Thread.currentThread().isInterrupted()) {
                 try {
                     // Simulate game tick every 50ms (20 TPS)
                     Thread.sleep(50);
@@ -147,14 +214,18 @@ public class Main {
                     
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
+                    Logger.debug("Tick simulation thread interrupted");
                     break;
                 } catch (Exception e) {
-                    Logger.error("Error in tick simulation: " + e.getMessage());
+                    Logger.error("Error in tick simulation", e);
+                    // Continue running even if there's an error
                 }
             }
-        });
+            Logger.debug("Tick simulation thread stopped");
+        }, "TickSimulation-Thread");
         
         tickThread.setDaemon(true);
         tickThread.start();
+        return tickThread;
     }
 }

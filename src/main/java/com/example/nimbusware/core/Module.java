@@ -3,6 +3,36 @@ package com.example.nimbusware.core;
 import com.example.nimbusware.NimbusWare;
 import com.example.nimbusware.utils.Logger;
 
+/**
+ * Abstract base class for all cheat modules in NimbusWare.
+ * This class provides the common functionality that all modules share,
+ * including enable/disable logic, event registration, and basic properties.
+ * 
+ * <p>All cheat modules must extend this class and implement the abstract methods
+ * {@link #onEnable()} and {@link #onDisable()}.</p>
+ * 
+ * <p>Example implementation:</p>
+ * <pre>{@code
+ * public class MyModule extends Module {
+ *     public MyModule() {
+ *         super("MyModule", "Description", Category.MISC, KeyEvent.VK_M);
+ *     }
+ *     
+ *     @Override
+ *     protected void onEnable() {
+ *         // Module-specific enable logic
+ *     }
+ *     
+ *     @Override
+ *     protected void onDisable() {
+ *         // Module-specific disable logic
+ *     }
+ * }</pre>
+ * 
+ * @author NimbusWare Team
+ * @version 1.0.0
+ * @since 1.0.0
+ */
 public abstract class Module {
     protected final String name;
     protected final String description;
