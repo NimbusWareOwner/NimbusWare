@@ -43,7 +43,15 @@ def check_java():
 
 def check_jar():
     """Check if JAR file exists"""
-    jar_path = Path("build/libs/workspace-1.0.0.jar")
+    # Check if running from PyInstaller bundle
+    if getattr(sys, 'frozen', False):
+        # Running from PyInstaller bundle
+        base_path = Path(sys._MEIPASS)
+        jar_path = base_path / "build/libs/workspace-1.0.0.jar"
+    else:
+        # Running from source
+        jar_path = Path("build/libs/workspace-1.0.0.jar")
+    
     if jar_path.exists():
         size_mb = jar_path.stat().st_size / (1024 * 1024)
         print(f"✅ JAR file found: {jar_path} ({size_mb:.2f} MB)")
@@ -63,7 +71,14 @@ def get_system_info():
 
 def launch_nimbusware():
     """Launch NimbusWare"""
-    jar_path = "build/libs/workspace-1.0.0.jar"
+    # Check if running from PyInstaller bundle
+    if getattr(sys, 'frozen', False):
+        # Running from PyInstaller bundle
+        base_path = Path(sys._MEIPASS)
+        jar_path = str(base_path / "build/libs/workspace-1.0.0.jar")
+    else:
+        # Running from source
+        jar_path = "build/libs/workspace-1.0.0.jar"
     
     # JVM options
     jvm_opts = [
@@ -120,7 +135,11 @@ def main():
         print(f"❌ An error occurred: {e}")
     finally:
         print("\nNimbusWare has stopped.")
-        input("Press Enter to exit...")
+        try:
+            input("Press Enter to exit...")
+        except EOFError:
+            # Handle non-interactive mode
+            pass
     
     return 0
 
