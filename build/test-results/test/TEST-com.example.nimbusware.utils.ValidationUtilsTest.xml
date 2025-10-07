@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.example.nimbusware.utils.ValidationUtilsTest" tests="23" skipped="0" failures="0" errors="0" timestamp="2025-10-07T05:26:51" hostname="cursor" time="0.045">
+  <properties/>
+  <testcase name="testValidateNotNull_ValidObject()" classname="com.example.nimbusware.utils.ValidationUtilsTest" time="0.002"/>
+  <testcase name="testValidateCondition_True()" classname="com.example.nimbusware.utils.ValidationUtilsTest" time="0.001"/>
+  <testcase name="testValidateRange_IntTooHigh()" classname="com.example.nimbusware.utils.ValidationUtilsTest" time="0.001"/>
+  <testcase name="testValidatePositive_Zero()" classname="com.example.nimbusware.utils.ValidationUtilsTest" time="0.001"/>
+  <testcase name="testValidatePositive_Negative()" classname="com.example.nimbusware.utils.ValidationUtilsTest" time="0.0"/>
+  <testcase name="testValidateRange_IntTooLow()" classname="com.example.nimbusware.utils.ValidationUtilsTest" time="0.001"/>
+  <testcase name="testValidateAlphanumeric_ValidString()" classname="com.example.nimbusware.utils.ValidationUtilsTest" time="0.0"/>
+  <testcase name="testValidateLength_TooShort()" classname="com.example.nimbusware.utils.ValidationUtilsTest" time="0.001"/>
+  <testcase name="testValidateRange_ValidDouble()" classname="com.example.nimbusware.utils.ValidationUtilsTest" time="0.003"/>
+  <testcase name="testValidateNotNullOrEmpty_ValidString()" classname="com.example.nimbusware.utils.ValidationUtilsTest" time="0.001"/>
+  <testcase name="testValidateCondition_False()" classname="com.example.nimbusware.utils.ValidationUtilsTest" time="0.001"/>
+  <testcase name="testValidateLength_TooLong()" classname="com.example.nimbusware.utils.ValidationUtilsTest" time="0.001"/>
+  <testcase name="testValidatePositive_ValidValue()" classname="com.example.nimbusware.utils.ValidationUtilsTest" time="0.001"/>
+  <testcase name="testValidateEmail_ValidEmail()" classname="com.example.nimbusware.utils.ValidationUtilsTest" time="0.001"/>
+  <testcase name="testValidateRange_ValidInt()" classname="com.example.nimbusware.utils.ValidationUtilsTest" time="0.002"/>
+  <testcase name="testValidateLength_ValidLength()" classname="com.example.nimbusware.utils.ValidationUtilsTest" time="0.001"/>
+  <testcase name="testValidateIPAddress_InvalidIP()" classname="com.example.nimbusware.utils.ValidationUtilsTest" time="0.001"/>
+  <testcase name="testValidateEmail_InvalidEmail()" classname="com.example.nimbusware.utils.ValidationUtilsTest" time="0.002"/>
+  <testcase name="testValidateNotNull_NullObject()" classname="com.example.nimbusware.utils.ValidationUtilsTest" time="0.001"/>
+  <testcase name="testValidateIPAddress_ValidIP()" classname="com.example.nimbusware.utils.ValidationUtilsTest" time="0.001"/>
+  <testcase name="testValidateNotNullOrEmpty_NullString()" classname="com.example.nimbusware.utils.ValidationUtilsTest" time="0.001"/>
+  <testcase name="testValidateNotNullOrEmpty_EmptyString()" classname="com.example.nimbusware.utils.ValidationUtilsTest" time="0.001"/>
+  <testcase name="testValidateAlphanumeric_InvalidString()" classname="com.example.nimbusware.utils.ValidationUtilsTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

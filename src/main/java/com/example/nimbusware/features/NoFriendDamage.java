@@ -352,7 +352,8 @@ public class NoFriendDamage extends Module {
         }
     }
     
-    private void initializeDefaultSettings() {
+    @Override
+    protected void initializeDefaultSettings() {
         // Initialize with some default friends
         customFriends.add("BestFriend");
         customFriends.add("Teammate1");

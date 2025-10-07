@@ -566,7 +566,8 @@ public class ClickPearl extends Module {
         }
     }
     
-    private void initializeDefaultSettings() {
+    @Override
+    protected void initializeDefaultSettings() {
         pearlCount = 8; // Start with 8 pearls
     }
     

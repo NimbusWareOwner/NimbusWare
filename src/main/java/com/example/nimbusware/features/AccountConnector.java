@@ -207,7 +207,8 @@ public class AccountConnector extends Module {
         Logger.debug("AutoBuy settings synced");
     }
     
-    private void initializeDefaultSettings() {
+    @Override
+    protected void initializeDefaultSettings() {
         // Initialize default shared items
         sharedItems.add("Diamond");
         sharedItems.add("Emerald");
