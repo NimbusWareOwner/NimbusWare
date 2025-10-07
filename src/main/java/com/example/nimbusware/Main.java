@@ -253,7 +253,7 @@ public class Main {
     
     private static void showMetrics(NimbusWare client) {
         System.out.println("\n=== Performance Metrics ===");
-        var metrics = client.getMetricsCollector().getAllMetrics();
+        java.util.Map<String, Object> metrics = client.getMetricsCollector().getAllMetrics();
         metrics.forEach((name, value) -> {
             System.out.println(name + ": " + value);
         });
@@ -262,11 +262,11 @@ public class Main {
     
     private static void showHealthStatus(NimbusWare client) {
         System.out.println("\n=== System Health Status ===");
-        var healthStatus = client.getHealthChecker().checkAllHealth();
+        com.example.nimbusware.monitoring.HealthChecker.HealthStatus healthStatus = client.getHealthChecker().checkAllHealth();
         System.out.println("Overall Status: " + (healthStatus.isHealthy() ? "HEALTHY" : "UNHEALTHY"));
         System.out.println("Message: " + healthStatus.getMessage());
         
-        var healthResults = client.getHealthChecker().getHealthResults();
+        java.util.Map<String, com.example.nimbusware.monitoring.HealthChecker.HealthStatus> healthResults = client.getHealthChecker().getHealthResults();
         healthResults.forEach((name, status) -> {
             System.out.println(name + ": " + status);
         });
@@ -275,7 +275,7 @@ public class Main {
     
     private static void showStatistics(NimbusWare client) {
         System.out.println("\n=== Usage Statistics ===");
-        var report = client.getStatisticsCollector().getStatisticsReport();
+        com.example.nimbusware.analytics.StatisticsCollector.StatisticsReport report = client.getStatisticsCollector().getStatisticsReport();
         
         System.out.println("Counters:");
         report.getCounters().forEach((name, value) -> {
@@ -290,7 +290,7 @@ public class Main {
         });
         
         System.out.println("\nModule Usage:");
-        var moduleStats = client.getStatisticsCollector().getAllModuleUsageStatistics();
+        java.util.Map<String, com.example.nimbusware.analytics.StatisticsCollector.ModuleUsageStatistics> moduleStats = client.getStatisticsCollector().getAllModuleUsageStatistics();
         moduleStats.forEach((name, stats) -> {
             System.out.println("  " + name + ": " + stats.getActivations() + " activations");
         });
@@ -300,7 +300,7 @@ public class Main {
     
     private static void showPlugins(NimbusWare client) {
         System.out.println("\n=== Loaded Plugins ===");
-        var plugins = client.getPluginManager().getLoadedPlugins();
+        java.util.Map<String, com.example.nimbusware.plugins.Plugin> plugins = client.getPluginManager().getLoadedPlugins();
         if (plugins.isEmpty()) {
             System.out.println("No plugins loaded");
         } else {
@@ -316,7 +316,7 @@ public class Main {
     
     private static void showSecureConfig(NimbusWare client) {
         System.out.println("\n=== Secure Configuration ===");
-        var encryptionStatus = client.getSecureConfigManager().getEncryptionStatus();
+        java.util.Map<String, Boolean> encryptionStatus = client.getSecureConfigManager().getEncryptionStatus();
         System.out.println("Encrypted Keys:");
         encryptionStatus.forEach((key, isEncrypted) -> {
             System.out.println("  " + key + ": " + (isEncrypted ? "Encrypted" : "Not Encrypted"));

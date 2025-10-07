@@ -269,7 +269,7 @@ public class AutoBuy extends Module {
         gui.open();
     }
     
-    public AutoBuySettings getSettings() {
+    public AutoBuySettings getAutoBuySettings() {
         return settings;
     }
     

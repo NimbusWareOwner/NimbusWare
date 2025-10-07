@@ -35,7 +35,8 @@ public class HypixelBypassStrategy implements BypassStrategy {
     public boolean isActive() {
         return active;
     }
-    
+
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }

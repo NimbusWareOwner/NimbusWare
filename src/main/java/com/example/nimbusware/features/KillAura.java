@@ -113,7 +113,7 @@ public class KillAura extends Module {
             // Check if we can attack
             if (System.currentTimeMillis() - lastAttack >= actualDelay * 50) { // Convert ticks to ms
                 performAttack(target, attackPattern);
-                lastAttack = System.currentTimeMillis();
+                lastAttack = (int) System.currentTimeMillis();
             }
         } else {
             if (currentTarget != null) {
@@ -171,8 +171,8 @@ public class KillAura extends Module {
         }
         
         // Record statistics
-        if (NimbusWare.INSTANCE != null) {
-            NimbusWare.INSTANCE.getStatisticsCollector().recordModuleUsage("KillAura", 50);
+        if (com.example.nimbusware.NimbusWare.INSTANCE != null) {
+            com.example.nimbusware.NimbusWare.INSTANCE.getStatisticsCollector().recordModuleUsage("KillAura", 50);
         }
         
         Logger.debug("KillAura: Attacked " + target + " (Attack #" + attackCount + ")");
@@ -180,7 +180,7 @@ public class KillAura extends Module {
     
     private void performNormalAttack(String target) {
         // Simulate normal attack with human-like timing
-        float rotationSpeed = settings.getDouble("rotationSpeed", 180.0f).floatValue();
+        float rotationSpeed = (float) settings.getDouble("rotationSpeed", 180.0f);
         boolean humanLikeRotation = settings.getBoolean("humanLikeRotation", true);
         
         if (humanLikeRotation) {
@@ -277,7 +277,7 @@ public class KillAura extends Module {
     }
     
     public float getRotationSpeed() { 
-        return settings.getDouble("rotationSpeed", 180.0f).floatValue(); 
+        return (float) settings.getDouble("rotationSpeed", 180.0f); 
     }
     
     public void setRotationSpeed(float rotationSpeed) { 

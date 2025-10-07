@@ -16,7 +16,7 @@ public class Macro {
     private final String description;
     private final List<MacroAction> actions = new ArrayList<>();
     private final ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor(r -> {
-        Thread t = new Thread(r, "Macro-" + name + "-Thread");
+        Thread t = new Thread(r, "Macro-" + getName() + "-Thread");
         t.setDaemon(true);
         return t;
     });
@@ -294,7 +294,7 @@ public class Macro {
         public void execute() throws Exception {
             // Toggle module
             if (com.example.nimbusware.NimbusWare.INSTANCE != null) {
-                var module = com.example.nimbusware.NimbusWare.INSTANCE.getModuleManager().getModule(moduleName);
+                com.example.nimbusware.core.Module module = com.example.nimbusware.NimbusWare.INSTANCE.getModuleManager().getModule(moduleName);
                 if (module != null) {
                     module.toggle();
                     System.out.println("Macro: Toggled module " + moduleName);

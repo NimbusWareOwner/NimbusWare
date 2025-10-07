@@ -79,6 +79,63 @@ public class AntiDetectionManager {
         }
     }
     
+    // Legacy methods for backward compatibility
+    public static void enableNCPBypass(String moduleName) {
+        enableBypass(moduleName, BypassType.MATRIX); // Use Matrix as NCP alternative
+    }
+    
+    public static void disableNCPBypass(String moduleName) {
+        disableBypass(moduleName);
+    }
+    
+    public static void enableAACBypass(String moduleName) {
+        enableBypass(moduleName, BypassType.MATRIX); // Use Matrix as AAC alternative
+    }
+    
+    public static void disableAACBypass(String moduleName) {
+        disableBypass(moduleName);
+    }
+    
+    public static void enableGrimBypass(String moduleName) {
+        enableBypass(moduleName, BypassType.MATRIX); // Use Matrix as Grim alternative
+    }
+    
+    public static void disableGrimBypass(String moduleName) {
+        disableBypass(moduleName);
+    }
+    
+    public static void enableVerusBypass(String moduleName) {
+        enableBypass(moduleName, BypassType.MATRIX); // Use Matrix as Verus alternative
+    }
+    
+    public static void disableVerusBypass(String moduleName) {
+        disableBypass(moduleName);
+    }
+    
+    public static void enableVulcanBypass(String moduleName) {
+        enableBypass(moduleName, BypassType.MATRIX); // Use Matrix as Vulcan alternative
+    }
+    
+    public static void disableVulcanBypass(String moduleName) {
+        disableBypass(moduleName);
+    }
+    
+    public static void enableSpartanBypass(String moduleName) {
+        enableBypass(moduleName, BypassType.MATRIX); // Use Matrix as Spartan alternative
+    }
+    
+    public static void disableSpartanBypass(String moduleName) {
+        disableBypass(moduleName);
+    }
+    
+    public static void enableIntaveBypass(String moduleName) {
+        enableBypass(moduleName, BypassType.MATRIX); // Use Matrix as Intave alternative
+    }
+    
+    public static void disableIntaveBypass(String moduleName) {
+        disableBypass(moduleName);
+    }
+    
     /**
      * Apply movement modification using the appropriate strategy
      * @param moduleName Name of the module

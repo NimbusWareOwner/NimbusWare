@@ -33,4 +33,10 @@ public interface BypassStrategy {
      * @return true if active, false otherwise
      */
     boolean isActive();
+    
+    /**
+     * Set the active state of this strategy
+     * @param active true to activate, false to deactivate
+     */
+    void setActive(boolean active);
 }

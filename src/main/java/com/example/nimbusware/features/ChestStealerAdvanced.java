@@ -291,7 +291,8 @@ public class ChestStealerAdvanced extends Module {
         }
     }
     
-    private void initializeDefaultSettings() {
+    @Override
+    protected void initializeDefaultSettings() {
         // Initialize container types
         containerTypes.put("Chest", true);
         containerTypes.put("Ender Chest", true);

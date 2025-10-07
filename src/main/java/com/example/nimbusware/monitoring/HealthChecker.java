@@ -164,7 +164,7 @@ public class HealthChecker {
             }
             
             try {
-                var moduleManager = NimbusWare.INSTANCE.getModuleManager();
+                com.example.nimbusware.core.ModuleManager moduleManager = NimbusWare.INSTANCE.getModuleManager();
                 if (moduleManager == null) {
                     return HealthStatus.unhealthy("Module manager not available");
                 }
@@ -185,7 +185,7 @@ public class HealthChecker {
             }
             
             try {
-                var eventManager = NimbusWare.INSTANCE.getEventManager();
+                com.example.nimbusware.core.EventManager eventManager = NimbusWare.INSTANCE.getEventManager();
                 if (eventManager == null) {
                     return HealthStatus.unhealthy("Event manager not available");
                 }

@@ -214,12 +214,18 @@ public class NotificationManager {
     }
     
     private String getNotificationPrefix(NotificationType type) {
-        return switch (type) {
-            case INFO -> "ℹ️";
-            case WARNING -> "⚠️";
-            case ERROR -> "❌";
-            case SUCCESS -> "✅";
-        };
+        switch (type) {
+            case INFO:
+                return "ℹ️";
+            case WARNING:
+                return "⚠️";
+            case ERROR:
+                return "❌";
+            case SUCCESS:
+                return "✅";
+            default:
+                return "📢";
+        }
     }
     
     /**
